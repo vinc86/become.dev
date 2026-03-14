@@ -16,7 +16,7 @@ const code = JetBrains_Mono({
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
-  weight: "500"
+  weight: ["400", "500", "600", "900"]
 });
 
 export const metadata: Metadata = {
