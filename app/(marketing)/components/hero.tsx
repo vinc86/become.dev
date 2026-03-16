@@ -25,8 +25,8 @@ const STATS: Stat[] = [
 ];
 export default function Hero() {
   return (
-    <section className="md:pt-10 flex flex-col min-h-screen items-center gap-10 justify-center">
-      <h1 className="text-[clamp(3rem,10vw,6rem)] text-center max-w-[80vw] font-extrabold md:tracking-wider font-poppins">
+    <section className="md:pt-10 flex flex-col min-h-screen items-center gap-20 md:gap-15 justify-center">
+      <h1 className="text-[clamp(3rem,8vw,5rem)] leading-20 md:leading-30 text-center w-full max-w-[70vw] font-extrabold md:tracking-wider font-poppins">
         The frontend school you
         <span className="text-primary"> actually need</span>
       </h1>
@@ -41,18 +41,18 @@ export default function Hero() {
       <div className="flex gap-3">
         <Link
           href="/start"
-          className="bg-primary text-white px-5 py-4 font-bold rounded-lg transition-colors ease-in-out hover:bg-orange-700"
+          className="bg-primary text-white px-3 py-2 md:px-5 md:py-4 font-bold rounded-lg transition-colors ease-in-out hover:bg-orange-700"
         >
           Choose your path →
         </Link>
         <Link
           href="/modules"
-          className="border border-muted/50 text-muted px-5 py-4 font-bold rounded-lg transition-colors ease-in-out hover:border-black"
+          className="border border-muted/50 text-muted px-3 py-2 md:px-5 md:py-4 font-bold rounded-lg transition-colors ease-in-out hover:border-black"
         >
           Browse Modules
         </Link>
       </div>
-      <div className="flex gap-10">
+      <div className="flex gap-5 md:gap-10">
         <Stats stats={STATS} />
       </div>
     </section>
