@@ -9,7 +9,7 @@ type CardProps = {
 
 export default function PathCard({ id, title, description, tags }: CardProps) {
   return (
-    <Card className="p-5 gap-5 max-w-70">
+    <Card className="p-5 gap-5 grow">
       <span className="font-code text-muted text-xs">
         PATH {id.padStart(2, "0")}
       </span>
