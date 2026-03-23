@@ -28,12 +28,12 @@ export default function Navigation() {
         <ul className="flex gap-10">
           {ONPAGE_LINKS.map((link) => (
             <li key={link.href}>
-              <Link
+              <a
                 href={`#${link.href}`}
                 className="hover:text-black text-muted transition-colors"
               >
                 {link.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>

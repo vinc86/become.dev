@@ -17,7 +17,7 @@ const PATHS: Path[] = [
     title: "Junior to Mid",
     description:
       "You can ship features. Now understand why things work. Close the gap between writing code and owning it.",
-    tags: ["Advanced JS", "React arch", "Testing", "CI/CD", "Patterns"]
+    tags: ["Advanced JS", "React Patterns", "Testing", "CI/CD", "Patterns"]
   },
   {
     title: "Mid to Senior",
@@ -35,7 +35,7 @@ const PATHS: Path[] = [
 
 export default function Paths() {
   return (
-    <section id="paths" className="mt-40 flex flex-col gap-7">
+    <section id="paths" className="pt-20 flex flex-col gap-7">
       <span className="font-code text-sm uppercase text-primary tracking-wide">
         {"// Learning paths"}
       </span>
@@ -47,7 +47,7 @@ export default function Paths() {
           Three distinct journeys. Same platform. The path sets your starting
           point.
         </p>
-        <div className="flex flex-col sm:flex-row  justify-center gap-3 items-stretch">
+        <div className="flex flex-col md:flex-row  justify-center gap-3 items-stretch">
           {PATHS.map((path, i) => (
             <PathCard
               key={path.title}
