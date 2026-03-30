@@ -1,3 +1,4 @@
+import Footer from "./components/footer";
 import Hero from "./components/hero";
 import Journey from "./components/journey";
 import Navigation from "./components/navigation";
@@ -12,6 +13,7 @@ export default function Marketing() {
         <Paths />
         <Journey />
       </main>
+      <Footer />
     </div>
   );
 }
