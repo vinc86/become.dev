@@ -25,8 +25,8 @@ const STATS: Stat[] = [
 ];
 export default function Hero() {
   return (
-    <section className="md:pt-10 flex flex-col min-h-screen items-center gap-20 md:gap-15 justify-center">
-      <h1 className="text-[clamp(3rem,8vw,5rem)] leading-20 md:leading-30 text-center w-full max-w-[70vw] font-extrabold md:tracking-wider font-poppins">
+    <section className="md:pt-10 flex flex-col min-h-screen items-center gap-20 md:gap-15 justify-center max-w-300 px-10">
+      <h1 className="text-[clamp(3rem,8vw,5rem)] md:leading-20 leading-15 text-center w-full max-w-[70vw] font-extrabold tracking-tight font-poppins">
         The frontend school you
         <span className="text-primary"> actually need</span>
       </h1>

@@ -1,15 +1,16 @@
 import Hero from "./components/hero";
+import Journey from "./components/journey";
 import Navigation from "./components/navigation";
 import Paths from "./components/paths";
 
 export default function Marketing() {
   return (
-    <div className="px-5">
+    <div>
       <Navigation />
-      <main className="w-full max-w-300 m-auto">
+      <main className="flex flex-col items-center w-full">
         <Hero />
         <Paths />
-        <div></div>
+        <Journey />
       </main>
     </div>
   );
