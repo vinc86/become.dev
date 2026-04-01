@@ -2,6 +2,7 @@ import CookieEconomy from "./components/cookie-economy";
 import Footer from "./components/footer";
 import Hero from "./components/hero";
 import HowItWorks from "./components/how-it-works";
+import InterviewAccelerator from "./components/interview-accelerator";
 import Navigation from "./components/navigation";
 import Paths from "./components/paths";
 
@@ -14,6 +15,7 @@ export default function Marketing() {
         <Paths />
         <HowItWorks />
         <CookieEconomy />
+        <InterviewAccelerator />
       </main>
       <Footer />
     </div>

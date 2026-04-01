@@ -38,6 +38,7 @@ export default function Navigation() {
               </li>
             ))}
           </ul>
+          {/*TODO: Extract to ui component */}
           <Link
             className="bg-black text-white px-5 py-2 rounded-md transition-colors ease-in-out hover:bg-orange-600"
             href="/start"
