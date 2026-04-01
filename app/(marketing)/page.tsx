@@ -5,6 +5,7 @@ import HowItWorks from "./components/how-it-works";
 import InterviewAccelerator from "./components/interview-accelerator";
 import Navigation from "./components/navigation";
 import Paths from "./components/paths";
+import CtaBanner from "./components/cta-banner";
 
 export default function Marketing() {
   return (
@@ -16,6 +17,7 @@ export default function Marketing() {
         <HowItWorks />
         <CookieEconomy />
         <InterviewAccelerator />
+        <CtaBanner />
       </main>
       <Footer />
     </div>
