@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./ui/card";
 
-const JOURNEYS: { title: string; description: string }[] = [
+const METHOD_FLOW: { title: string; description: string }[] = [
   {
     title: "Read & understand",
     description:
@@ -24,13 +24,13 @@ const JOURNEYS: { title: string; description: string }[] = [
   }
 ];
 
-export default function Journey() {
+export default function HowItWorks() {
   return (
-    <section className="flex flex-col gap-7 bg-foreground w-full">
-      <div
-        id="how-it-works"
-        className="mx-auto py-20 flex flex-col gap-7 max-w-300 w-full px-10"
-      >
+    <section
+      id="how-it-works"
+      className="flex flex-col gap-7 bg-foreground w-full"
+    >
+      <div className="mx-auto py-20 flex flex-col gap-7 max-w-300 w-full px-10">
         <span className="font-code text-sm uppercase text-primary tracking-wide">
           {"// The Method"}
         </span>
@@ -42,19 +42,19 @@ export default function Journey() {
             Not another video course. Every lesson is built around doing, not
             watching.
           </p>
-          <div className="flex flex-col gap-3 md:flex-row md:items-center lg:h-80 md:h-100">
-            {JOURNEYS.map((journey, i) => (
+          <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
+            {METHOD_FLOW.map((journey, i) => (
               <Card
                 key={journey.title}
-                className="flex flex-col md:h-full w-full flex-1 gap-5 bg-foreground-light border border-muted p-10 md:p-5 md:justify-around transition-all ease-in-out hover:bg-foreground"
+                className="flex flex-col flex-1 w-full gap-5 bg-foreground-light border border-muted p-10 md:p-5 transition-all ease-in-out hover:bg-foreground"
               >
                 <span className="font-poppins text-6xl font-bold text-background/50">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="flex flex-col gap-3">
-                  <h2 className="text-background text-xl font-poppins font-semibold">
+                  <h3 className="text-background text-xl font-poppins font-semibold">
                     {journey.title}
-                  </h2>
+                  </h3>
                   <p className="text-background/50">{journey.description}</p>
                 </div>
               </Card>

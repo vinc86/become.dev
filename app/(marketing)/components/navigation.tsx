@@ -17,8 +17,8 @@ const ONPAGE_LINKS = [
 
 export default function Navigation() {
   return (
-    <header>
-      <nav className="hidden top-0 left-0 fixed md:flex w-full h-16 items-center justify-between p-5 backdrop-blur-lg bg-gray-50/5">
+    <header className="hidden md:flex top-0 left-0 fixed w-full h-16 p-5 backdrop-blur bg-white/80">
+      <nav className="flex items-center justify-between w-full">
         <span className="text-2xl font-bold flex items-center gap-2">
           <span className="bg-primary block h-1.5 w-1.5 rounded-full animate-pulse"></span>
           <span>

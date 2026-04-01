@@ -42,7 +42,7 @@ export default function Paths() {
       <span className="font-code text-sm uppercase text-primary tracking-wide">
         {"// Learning paths"}
       </span>
-      <h2 className="font-poppins text-[clamp(2rem,5vw,3.5rem)] leading-10 md:leading-15 font-extrabold w-60 md:w-80 lg:w-100">
+      <h2 className="font-poppins text-[clamp(2rem,5vw,3.5rem)] tracking-tight leading-10 md:leading-15 font-extrabold w-60 md:w-80 lg:w-100">
         Pick where you are now
       </h2>
       <div className="flex flex-col gap-15">
