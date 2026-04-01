@@ -11,14 +11,13 @@ export default function Footer() {
 
   const footerLinks = [
     {
-      href: "#",
+      href: "/catalog",
       label: "Catalog"
     },
     {
-      href: "#",
+      href: "/about",
       label: "About"
     }
-    /* { href: "#", label: "GitHub" } */
   ] as const;
 
   return (
