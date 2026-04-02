@@ -3,14 +3,14 @@ import Footer from "./components/footer";
 import Hero from "./components/hero";
 import HowItWorks from "./components/how-it-works";
 import InterviewAccelerator from "./components/interview-accelerator";
-import Navigation from "./components/navigation";
 import Paths from "./components/paths";
 import CtaBanner from "./components/cta-banner";
+import Header from "./components/header";
 
 export default function Marketing() {
   return (
     <div>
-      <Navigation />
+      <Header />
       <main className="flex flex-col items-center w-full">
         <Hero />
         <Paths />
