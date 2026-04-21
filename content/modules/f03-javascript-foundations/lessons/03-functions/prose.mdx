@@ -1,0 +1,256 @@
+---
+lessonId: "03"
+title: "Functions"
+sectionCount: 5
+---
+
+## Why Functions Exist
+
+Functions let you name a block of code and run it multiple times without rewriting it. Every time you call `console.log()` or `document.querySelector()`, you're using a function someone else wrote. Learning to write your own is the first step toward building real applications.
+
+A function encapsulates a task. Instead of scattering the same ten lines throughout your code, you write them once in a function and call that function wherever you need the task done. If the task needs to change, you update it in one place.
+
+```js
+// Without a function: repetitive and error-prone
+const price1 = 100;
+const tax1 = price1 * 0.08;
+const total1 = price1 + tax1;
+
+const price2 = 250;
+const tax2 = price2 * 0.08;
+const total2 = price2 + tax2;
+
+// With a function: write once, use anywhere
+function calculateTotal(price) {
+  const tax = price * 0.08;
+  return price + tax;
+}
+
+const total1 = calculateTotal(100);  // 108
+const total2 = calculateTotal(250);  // 270
+```
+
+The second approach is shorter, but that's not the main benefit. The main benefit is that if the tax rate changes to 9%, you update one line instead of hunting through your codebase.
+
+> **Simply Put:** Functions package reusable code. Define a task once, then call it wherever you need it.
+
+## Function Declarations
+
+A function declaration defines a named function using the `function` keyword.
+
+```js
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+
+const message = greet("Jordan");  // "Hello, Jordan!"
+```
+
+The anatomy:
+- `function` — the keyword that starts the declaration
+- `greet` — the function name (follows the same rules as variable names)
+- `(name)` — the parameter list (inputs the function expects)
+- `{ ... }` — the function body (code that runs when called)
+- `return` — sends a value back to the caller
+
+Parameters are placeholders. When you call `greet("Jordan")`, the value `"Jordan"` is passed as an argument and assigned to the parameter `name` inside the function.
+
+```js
+function add(a, b) {
+  return a + b;
+}
+
+add(5, 3);      // 8 — a=5, b=3
+add(10, 20);    // 30 — a=10, b=20
+add(1);         // NaN — a=1, b=undefined, so 1 + undefined = NaN
+```
+
+If you call a function with fewer arguments than parameters, the missing parameters receive `undefined` as their value. This is usually a bug, not a feature.
+
+**Default parameters** let you specify fallback values:
+
+```js
+function greet(name = "Guest") {
+  return "Hello, " + name + "!";
+}
+
+greet("Jordan");  // "Hello, Jordan!"
+greet();          // "Hello, Guest!"
+```
+
+**Return stops execution.** Code after `return` doesn't run:
+
+```js
+function checkAge(age) {
+  if (age < 18) {
+    return "Too young";
+  }
+  return "Access granted";
+  console.log("This never runs");
+}
+```
+
+A function without a `return` statement returns `undefined`:
+
+```js
+function logMessage(msg) {
+  console.log(msg);
+  // No return — implicitly returns undefined
+}
+
+const result = logMessage("Hi");  // Logs "Hi"
+console.log(result);              // undefined
+```
+
+## Function Expressions
+
+A function expression assigns a function to a variable. The function itself can be anonymous (no name) or named.
+
+```js
+// Anonymous function expression
+const multiply = function(a, b) {
+  return a * b;
+};
+
+multiply(4, 5);  // 20
+
+// Named function expression (useful for debugging)
+const divide = function divideNumbers(a, b) {
+  return a / b;
+};
+
+divide(20, 4);  // 5
+```
+
+The key difference from declarations: function expressions are not hoisted. You can't call them before they're defined.
+
+```js
+// This works — declarations are hoisted
+sayHello();
+function sayHello() {
+  console.log("Hello!");
+}
+
+// This crashes — expressions are not hoisted
+sayGoodbye();  // TypeError: sayGoodbye is not a function
+const sayGoodbye = function() {
+  console.log("Goodbye!");
+};
+```
+
+[→ Lesson 4: Scope and Hoisting] explains hoisting in detail.
+
+> **Simply Put:** Function declarations use `function name()` syntax and are hoisted. Function expressions assign a function to a variable and can't be called before they're defined.
+
+## Arrow Functions
+
+Arrow functions are a concise syntax introduced in ES6. They're especially useful for short functions and callbacks.
+
+```js
+// Each of these is a different way to write the same function:
+
+// Traditional function expression
+const add1 = function(a, b) {
+  return a + b;
+};
+
+// Arrow function equivalent
+const add2 = (a, b) => {
+  return a + b;
+};
+
+// Concise body — implicit return for single expressions
+const add3 = (a, b) => a + b;
+```
+
+The syntax variations:
+
+```js
+// Multiple parameters: parentheses required
+const add = (a, b) => a + b;
+
+// Single parameter: parentheses optional
+const double = x => x * 2;
+const double = (x) => x * 2;  // Also valid
+
+// No parameters: empty parentheses required
+const getRandom = () => Math.random();
+
+// Multiple statements: curly braces required, explicit return needed
+const calculate = (price, quantity) => {
+  const subtotal = price * quantity;
+  const tax = subtotal * 0.08;
+  return subtotal + tax;
+};
+```
+
+Arrow functions shine in callbacks — functions passed to other functions:
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Traditional function
+const doubled = numbers.map(function(n) {
+  return n * 2;
+});
+
+// Arrow function — cleaner
+const doubled = numbers.map(n => n * 2);
+```
+
+Arrow functions have one important difference from regular functions: they don't have their own `this` keyword binding. This affects how they behave when used as object methods.
+
+> **Simply Put:** Use regular functions for object methods. Use arrow functions for callbacks and short transformations. We'll explore why in [→ F04: JavaScript Core Depth].
+
+## Functions as Values
+
+In JavaScript, functions are values — they can be stored in variables, passed to other functions, and returned from functions. This is called "first-class functions" and it's fundamental to how JavaScript works.
+
+**Passing functions to other functions:**
+
+```js
+function processUser(user, callback) {
+  // Do some processing
+  const result = { ...user, processed: true };
+  callback(result);
+}
+
+function logUser(user) {
+  console.log("User:", user.name);
+}
+
+processUser({ name: "Jordan" }, logUser);
+// Logs: "User: Jordan"
+```
+
+The `callback` parameter receives a function. When we call `callback(result)`, we're calling whatever function was passed in.
+
+**Returning functions from functions:**
+
+Functions can also return other functions. This unlocks powerful patterns that we'll explore in [→ F04: JavaScript Core Depth].
+
+**Common callback patterns you'll see:**
+
+```js
+// Array methods
+const prices = [10, 20, 30];
+const withTax = prices.map(price => price * 1.08);
+
+// Event handlers
+button.addEventListener("click", function(event) {
+  console.log("Button clicked!");
+});
+
+// Asynchronous operations
+fetch("/api/users")
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(users) {
+    console.log(users);
+  });
+```
+
+Treating functions as values is one of JavaScript's most powerful features. It enables patterns like callbacks, event handlers, and functional programming techniques.
+
+> **Simply Put:** Functions are values. You can store them in variables, pass them to other functions, and return them from functions. This enables callbacks, event handlers, and many JavaScript patterns.

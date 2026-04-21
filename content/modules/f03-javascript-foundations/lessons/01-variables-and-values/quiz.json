@@ -1,0 +1,76 @@
+[
+  {
+    "type": "MCQ",
+    "question": "What is the primary difference between `let` and `const`?",
+    "options": [
+      "let is faster than const",
+      "const variables can be reassigned, let variables cannot",
+      "let variables can be reassigned, const variables cannot",
+      "const creates immutable values, let creates mutable values"
+    ],
+    "correctIndex": 2,
+    "explanation": "The correct answer is that `let` allows reassignment while `const` does not. Option A is wrong because there's no meaningful performance difference. Option B has the relationship backwards. Option D is a common misconception — `const` prevents reassignment but doesn't make objects immutable (you can still modify object properties). Use `const` by default and `let` only when you need to reassign."
+  },
+  {
+    "type": "MCQ",
+    "question": "Which of the following is a valid JavaScript variable name?",
+    "options": [
+      "3rdItem",
+      "item-count",
+      "class",
+      "_privateValue"
+    ],
+    "correctIndex": 3,
+    "explanation": "`_privateValue` is valid because variable names can start with underscores. `3rdItem` is invalid because names cannot start with numbers. `item-count` is invalid because hyphens are interpreted as the subtraction operator. `class` is invalid because it's a reserved keyword in JavaScript."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You're building a shopping cart feature. The cart needs to track the number of items and the total price. As users add and remove items, these values change. You also need to store the store's name and tax rate, which are fixed for all transactions.",
+    "question": "Which variable declarations correctly match the requirements?",
+    "options": [
+      "const itemCount, const totalPrice, const storeName, const taxRate",
+      "let itemCount, let totalPrice, const storeName, const taxRate",
+      "var itemCount, var totalPrice, var storeName, var taxRate",
+      "let itemCount, let totalPrice, let storeName, let taxRate"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B correctly uses `let` for values that change (item count and total price) and `const` for values that don't (store name and tax rate). Option A is wrong because item count and total price need to be updated. Option C uses `var` which should be avoided in modern code. Option D works but misses the opportunity to signal intent — using `const` for fixed values communicates that they shouldn't change."
+  },
+  {
+    "type": "MCQ",
+    "question": "What value does an uninitialized `let` variable hold?",
+    "options": [
+      "null",
+      "0",
+      "undefined",
+      "It throws an error when accessed"
+    ],
+    "correctIndex": 2,
+    "explanation": "An uninitialized `let` variable holds `undefined`, which represents \"declared but no value assigned yet.\" `null` is a value you explicitly assign to indicate intentional emptiness. `0` would be a specific number, not the absence of a value. Unlike undeclared variables, accessing an uninitialized `let` variable doesn't throw an error — it simply returns `undefined`."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "A junior developer writes this code and is confused why it doesn't work:\n\n```js\nconst user = { name: \"Alex\", role: \"viewer\" };\nuser.role = \"admin\";\nconsole.log(user.role);\n```\n\nThey expected an error because they used `const`, but the code runs fine and logs \"admin\".",
+    "question": "Why does this code work without an error?",
+    "options": [
+      "The code actually does throw an error; the developer is mistaken",
+      "const only prevents reassigning the variable, not modifying the object it references",
+      "Objects declared with const become regular let variables automatically",
+      "The .role property wasn't defined with const, so it can change"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B is correct. `const` prevents reassigning the variable to a different value (like `user = { ... }`), but it doesn't make the object itself immutable. You can still modify properties of a const object. Option A is wrong because the code genuinely works. Option C is wrong because there's no automatic conversion. Option D misunderstands how const works — it's about the variable binding, not individual properties."
+  },
+  {
+    "type": "MCQ",
+    "question": "What does the `+=` operator do?",
+    "options": [
+      "Checks if two values are equal and assigns true or false",
+      "Adds the right value to the left variable and stores the result",
+      "Creates a new variable with the combined value",
+      "Concatenates two strings only"
+    ],
+    "correctIndex": 1,
+    "explanation": "`+=` is shorthand for adding and reassigning. `x += 5` is equivalent to `x = x + 5`. Option A describes comparison operators like `===`. Option C is wrong because no new variable is created. Option D is wrong because `+=` works with numbers (addition) and strings (concatenation) alike."
+  }
+]

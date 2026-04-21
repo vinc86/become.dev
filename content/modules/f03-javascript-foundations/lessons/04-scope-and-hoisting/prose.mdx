@@ -1,0 +1,221 @@
+---
+lessonId: "04"
+title: "Scope and Hoisting"
+sectionCount: 4
+---
+
+## What Scope Means
+
+> **Note:** The word "context" often refers to `this` binding in JavaScript. We'll cover `this` in [→ F04: JavaScript Core Depth]. This lesson focuses on variable scope — where variables are visible and accessible.
+
+Scope determines where variables are visible and accessible in your code. A variable declared inside a function isn't accessible outside that function. A variable declared at the top level of your script is accessible everywhere. Understanding scope prevents bugs where you accidentally overwrite variables or try to use variables that don't exist.
+
+```js
+function processOrder() {
+  const orderId = "ORD-123";
+  console.log(orderId);  // Works: orderId is in scope
+}
+
+processOrder();
+console.log(orderId);  // ReferenceError: orderId is not defined
+```
+
+The variable `orderId` exists only inside `processOrder`. Once the function finishes, that variable is gone. Code outside the function can't see it.
+
+This is actually a feature, not a limitation. Scope protects your variables from being accidentally modified by other parts of your program. If every variable were visible everywhere, you'd constantly worry about name collisions.
+
+> **Simply Put:** Scope is where a variable exists and can be used. Variables declared inside a function stay inside that function.
+
+## Global, Function, and Block Scope
+
+JavaScript has three levels of scope.
+
+**Global scope** — variables declared outside any function or block are global. They're accessible everywhere in your program.
+
+```js
+const APP_VERSION = "2.1.0";  // Global
+
+function showVersion() {
+  console.log(APP_VERSION);  // Can access global
+}
+
+if (true) {
+  console.log(APP_VERSION);  // Can access global
+}
+```
+
+Global variables are convenient but dangerous. Any code in your application can read or modify them. In large applications, globals lead to hard-to-track bugs. Use them sparingly — primarily for true constants like configuration values.
+
+**Function scope** — variables declared inside a function are only visible within that function. This includes parameters.
+
+```js
+function calculateTotal(price, quantity) {
+  const subtotal = price * quantity;  // Function-scoped
+  const tax = subtotal * 0.08;        // Function-scoped
+  return subtotal + tax;
+}
+
+console.log(subtotal);  // ReferenceError: subtotal is not defined
+console.log(price);     // ReferenceError: price is not defined
+```
+
+The parameters `price` and `quantity` are also function-scoped. They don't exist outside the function.
+
+**Block scope** — variables declared with `let` and `const` inside curly braces `{}` are only visible within that block. This includes `if` statements, `for` loops, and any code wrapped in braces.
+
+```js
+if (true) {
+  const message = "Inside the block";
+  let count = 5;
+  console.log(message);  // Works
+}
+
+console.log(message);  // ReferenceError: message is not defined
+console.log(count);    // ReferenceError: count is not defined
+```
+
+Block scope is why `let` and `const` are preferred over `var`. The `var` keyword only has function scope — it ignores blocks:
+
+```js
+if (true) {
+  var leaked = "I escape the block!";
+}
+console.log(leaked);  // "I escape the block!" — var ignores the block
+
+for (var i = 0; i < 3; i++) {
+  // loop body
+}
+console.log(i);  // 3 — var leaks out of the for loop
+```
+
+This is confusing behavior and a common source of bugs. Stick with `let` and `const`.
+
+> **Simply Put:** Global variables are visible everywhere. Function-scoped variables stay in the function. Block-scoped variables (let/const) stay in their curly braces. Prefer block scope.
+
+## Hoisting: What JavaScript Does Before Running Your Code
+
+Before executing your code, JavaScript moves (hoists) certain declarations to the top of their scope. Understanding hoisting explains why some code works when it seems like it shouldn't — and why other code fails unexpectedly.
+
+**Function declarations are fully hoisted:**
+
+```js
+// This works — the function is hoisted
+sayHello();
+
+function sayHello() {
+  console.log("Hello!");
+}
+```
+
+JavaScript sees the function declaration and processes it before running any code. It's as if the declaration were at the top.
+
+**var is hoisted, but not its value:**
+
+```js
+console.log(message);  // undefined (not ReferenceError)
+var message = "Hello";
+console.log(message);  // "Hello"
+```
+
+The declaration `var message` is hoisted, so the variable exists. But the assignment `= "Hello"` stays where it is. The variable exists but is `undefined` until the assignment runs.
+
+**let and const are hoisted but not accessible:**
+
+```js
+console.log(count);  // ReferenceError: Cannot access 'count' before initialization
+let count = 5;
+```
+
+Technically, `let` and `const` are hoisted — the JavaScript engine knows they exist. But they're in a "temporal dead zone" (TDZ) from the start of the block until the declaration. Accessing them in this zone throws an error.
+
+This is actually better behavior than `var`. Getting `undefined` silently is confusing and hides bugs. Getting an error tells you exactly what's wrong.
+
+**Function expressions are NOT hoisted as functions:**
+
+```js
+sayGoodbye();  // TypeError: sayGoodbye is not a function
+
+const sayGoodbye = function() {
+  console.log("Goodbye!");
+};
+```
+
+The variable `sayGoodbye` is hoisted (it's in the TDZ with `const`), but the function assignment isn't. Until that line runs, there's no function to call.
+
+```js
+greet();  // TypeError: greet is not a function
+
+var greet = function() {
+  console.log("Hi!");
+};
+```
+
+With `var`, the variable is hoisted and initialized to `undefined`. Calling `undefined()` throws a TypeError.
+
+> **Simply Put:** Hoisting moves declarations (not assignments) to the top of their scope. Function declarations are fully hoisted. `var` is hoisted as undefined. `let` and `const` are hoisted but throw errors if accessed early.
+
+## Scope Chain and Nested Functions
+
+When JavaScript looks for a variable, it starts in the current scope and works outward. If it doesn't find the variable locally, it checks the enclosing scope, then the next enclosing scope, all the way to global. This is the scope chain.
+
+```js
+const globalVar = "global";
+
+function outer() {
+  const outerVar = "outer";
+  
+  function inner() {
+    const innerVar = "inner";
+    
+    console.log(innerVar);   // "inner" — found locally
+    console.log(outerVar);   // "outer" — found in outer function
+    console.log(globalVar);  // "global" — found in global scope
+  }
+  
+  inner();
+}
+
+outer();
+```
+
+The `inner` function can access:
+- Its own local variables (`innerVar`)
+- Variables from the enclosing `outer` function (`outerVar`)
+- Global variables (`globalVar`)
+
+But this doesn't work in reverse:
+
+```js
+function outer() {
+  const outerVar = "outer";
+  
+  function inner() {
+    const innerVar = "inner";
+  }
+  
+  inner();
+  console.log(innerVar);  // ReferenceError — inner's variables aren't visible here
+}
+```
+
+This nested access is the foundation of closures — a powerful pattern covered in [→ F04: JavaScript Core Depth].
+
+**Variable shadowing** occurs when an inner scope declares a variable with the same name as an outer scope:
+
+```js
+const name = "Global";
+
+function greet() {
+  const name = "Local";  // Shadows the global 'name'
+  console.log(name);     // "Local"
+}
+
+greet();
+console.log(name);  // "Global" — original unchanged
+```
+
+The local `name` shadows (hides) the global `name` within the function. The global variable still exists and is unchanged — it's just not visible inside the function because a local variable has the same name.
+
+Shadowing is sometimes intentional, but it can also be a source of confusion. In general, avoid giving variables the same name at different scope levels unless you have a specific reason.
+
+> **Simply Put:** JavaScript searches for variables from inner scopes to outer scopes. Inner functions can access outer variables, but not vice versa. Variables with the same name in inner scopes shadow outer ones.

@@ -1,0 +1,89 @@
+[
+  {
+    "type": "MCQ",
+    "question": "What is the main difference between function scope and block scope?",
+    "options": [
+      "Function scope is faster than block scope",
+      "Block scope uses var, function scope uses let",
+      "Function scope is limited to the function body, block scope is limited to any {} block",
+      "There is no difference — they work the same way"
+    ],
+    "correctIndex": 2,
+    "explanation": "Function scope means variables are visible throughout the entire function. Block scope means variables are limited to the nearest enclosing `{}` — including if statements, loops, and standalone blocks. Option B is backwards: `var` is function-scoped, while `let` and `const` are block-scoped."
+  },
+  {
+    "type": "MCQ",
+    "question": "What is the temporal dead zone (TDZ)?",
+    "options": [
+      "The time between a server request and response",
+      "The period where a let/const variable exists but cannot be accessed, before its declaration",
+      "A JavaScript memory leak pattern",
+      "The gap between function calls in async code"
+    ],
+    "correctIndex": 1,
+    "explanation": "The temporal dead zone is the period from the start of a block until a `let` or `const` declaration is reached. During this time, the variable technically exists (it's hoisted) but accessing it throws a ReferenceError. This is a safety feature that prevents bugs from accessing variables before they're initialized."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You're reviewing code that a colleague wrote:\n\n```js\nfunction processItems(items) {\n  for (var i = 0; i < items.length; i++) {\n    var item = items[i];\n    processItem(item);\n  }\n  console.log('Last index:', i);\n  console.log('Last item:', item);\n}\n```\n\nYour colleague says the logs work correctly and show the final values.",
+    "question": "Why do the console.log statements work even though i and item were declared inside the loop?",
+    "options": [
+      "JavaScript automatically moves variables outside loops",
+      "The console.log is still inside the function scope where var is accessible",
+      "var declarations inside loops are always global",
+      "This code would actually throw ReferenceError"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B is correct. `var` is function-scoped, not block-scoped. Even though `i` and `item` are declared inside the for loop, they're accessible throughout the entire `processItems` function. This is often surprising behavior and a reason to prefer `let` and `const`, which would make `item` inaccessible outside the loop."
+  },
+  {
+    "type": "MCQ",
+    "question": "When JavaScript looks for a variable, what is the order of the scope chain?",
+    "options": [
+      "Global → Function → Block",
+      "Block → Global → Function",
+      "Current scope → Outer scope → Global",
+      "Global → Current scope → Outer scope"
+    ],
+    "correctIndex": 2,
+    "explanation": "JavaScript starts looking in the current scope (innermost). If not found, it moves to the enclosing scope, then the next enclosing scope, continuing outward until it reaches the global scope. This is why inner functions can access variables from outer functions — they're higher up the scope chain."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "A developer writes this code and is confused about the output:\n\n```js\nvar name = \"Global\";\n\nfunction outer() {\n  console.log(name);  // Line A\n  var name = \"Outer\";\n  console.log(name);  // Line B\n}\n\nouter();\n```\n\nThey expected Line A to log \"Global\" but it logs undefined.",
+    "question": "Why does Line A log undefined instead of \"Global\"?",
+    "options": [
+      "The global name variable doesn't exist yet",
+      "var name inside the function is hoisted, shadowing the global name, but its value is undefined until assigned",
+      "console.log doesn't work with global variables",
+      "Functions can't access global variables"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B is correct. The `var name` inside the function is hoisted to the top of the function. This shadows the global `name` throughout the entire function. At Line A, the local `name` exists but hasn't been assigned yet, so it's undefined. At Line B, after the assignment, it's \"Outer\". The global \"Global\" is never accessed because the local variable shadows it."
+  },
+  {
+    "type": "MCQ",
+    "question": "Which statement about hoisting is TRUE?",
+    "options": [
+      "Function expressions are hoisted just like function declarations",
+      "const and let are not hoisted at all",
+      "Function declarations are hoisted completely — you can call them before their definition",
+      "Hoisting moves both declarations and initializations to the top"
+    ],
+    "correctIndex": 2,
+    "explanation": "Option C is correct. Function declarations are fully hoisted, so you can call them before they appear in your code. Option A is wrong — function expressions are treated like variable assignments (only the variable is hoisted). Option B is wrong — const and let ARE hoisted, but they're in the TDZ. Option D is wrong — only declarations are hoisted, not initializations/assignments."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You're fixing a bug in an event handler:\n\n```js\nfor (var i = 0; i < buttons.length; i++) {\n  buttons[i].addEventListener('click', function() {\n    console.log('Button ' + i + ' clicked');\n  });\n}\n```\n\nNo matter which button is clicked, it always logs \"Button 3 clicked\" (assuming 3 buttons).",
+    "question": "What's the best fix for this bug?",
+    "options": [
+      "Use setTimeout to delay the event binding",
+      "Change var i to let i",
+      "Move the addEventListener outside the loop",
+      "Use i.toString() instead of i"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B is the fix. With `var`, there's one shared `i` variable. By the time any button is clicked, the loop has finished and `i` is 3. With `let`, each iteration creates a new `i` scoped to that block. Each click handler closes over its own `i`, preserving the correct value. This is a classic example of why `let` is preferred over `var` in loops."
+  }
+]

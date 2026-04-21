@@ -1,0 +1,84 @@
+[
+  {
+    "type": "MCQ",
+    "question": "What is the main difference between a function declaration and a function expression?",
+    "options": [
+      "Function declarations are faster to execute",
+      "Function expressions can have parameters, declarations cannot",
+      "Function declarations are hoisted, function expressions are not",
+      "Function expressions can return values, declarations cannot"
+    ],
+    "correctIndex": 2,
+    "explanation": "The key difference is hoisting. Function declarations are hoisted to the top of their scope, so you can call them before they appear in the code. Function expressions are not hoisted — the variable exists but is undefined until the assignment. Options A, B, and D are all false: both forms have similar performance, both can have parameters, and both can return values."
+  },
+  {
+    "type": "MCQ",
+    "question": "What does a function return if it has no return statement?",
+    "options": ["null", "0", "undefined", "An empty string"],
+    "correctIndex": 2,
+    "explanation": "Functions without a `return` statement implicitly return `undefined`. This is different from `null` (an intentional empty value you'd explicitly return) or other values. This is a common bug source — forgetting to return a computed value results in `undefined`."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You're refactoring old code and find this function:\n\n```js\nconst calculate = function(items) {\n  let total = 0;\n  for (let item of items) {\n    total += item.price * item.quantity;\n  }\n  return total;\n};\n```\n\nA colleague suggests converting it to an arrow function for consistency with the rest of the codebase.",
+    "question": "Which is the correct arrow function equivalent?",
+    "options": [
+      "const calculate = items => let total = 0; for...; return total;",
+      "const calculate = (items) => { let total = 0; for (let item of items) { total += item.price * item.quantity; } return total; }",
+      "const calculate = items => items.map(i => i.price * i.quantity).join('')",
+      "Both B and C are valid equivalents"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B is the correct direct conversion: an arrow function with a block body containing the same logic. Option A is invalid syntax — you can't have statements like `let` and `for` in a concise arrow function body without curly braces. Option C uses different logic that wouldn't produce the same result."
+  },
+  {
+    "type": "MCQ",
+    "question": "When can you omit parentheses around arrow function parameters?",
+    "options": [
+      "Never — parentheses are always required",
+      "When the function has exactly one parameter",
+      "When the function has no parameters",
+      "When the function body is a single expression"
+    ],
+    "correctIndex": 1,
+    "explanation": "Parentheses are optional only when there's exactly one parameter: `x => x * 2`. With zero parameters, you need empty parentheses: `() => Math.random()`. With multiple parameters, you need parentheses: `(a, b) => a + b`. The function body doesn't affect whether you need parentheses around the parameters."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "A junior developer writes this code and is confused about why `double(5)` returns undefined:\n\n```js\nconst double = (n) => {\n  n * 2;\n};\n\nconsole.log(double(5)); // undefined\n```",
+    "question": "Why does this return undefined?",
+    "options": [
+      "Arrow functions can't perform multiplication",
+      "The curly braces require an explicit return statement; `n * 2` computes but is discarded",
+      "The parameter n is not defined inside the function body",
+      "You can't use console.log with arrow functions"
+    ],
+    "correctIndex": 1,
+    "explanation": "When an arrow function has curly braces (a block body), you must explicitly use `return` to return a value. `n * 2;` computes the value but doesn't return it, so the function returns `undefined`. The fix is either `return n * 2;` or removing the braces for a concise body: `const double = (n) => n * 2;`"
+  },
+  {
+    "type": "MCQ",
+    "question": "What is a callback function?",
+    "options": [
+      "A function that calls back to the server",
+      "A function that is passed as an argument to another function",
+      "A function that calls itself recursively",
+      "A function that returns another function"
+    ],
+    "correctIndex": 1,
+    "explanation": "A callback is a function passed as an argument to another function, to be called later. The receiving function \"calls back\" to this function at some point. Examples include event handlers (`button.addEventListener('click', callback)`), array methods (`array.map(callback)`), and async operations. Option C describes recursion. Option D describes a higher-order function (which may or may not involve callbacks)."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You need to write a function that processes user data. The function should:\n1. Accept a user object\n2. Accept a callback function\n3. Add a `processedAt` timestamp to the user\n4. Call the callback with the modified user",
+    "question": "Which implementation correctly fulfills these requirements?",
+    "options": [
+      "function processUser(user, callback) { user.processedAt = Date.now(); callback(user); }",
+      "function processUser(user) { user.processedAt = Date.now(); return callback(user); }",
+      "function processUser(callback, user) { callback.processedAt = Date.now(); return user; }",
+      "function processUser(user, callback) { return user.processedAt = Date.now(); }"
+    ],
+    "correctIndex": 0,
+    "explanation": "Option A correctly: accepts user and callback as parameters, adds `processedAt` to the user object, and calls the callback with the modified user. Option B references `callback` without it being a parameter. Option C has the parameters reversed and adds the property to the wrong object. Option D doesn't use the callback at all."
+  }
+]

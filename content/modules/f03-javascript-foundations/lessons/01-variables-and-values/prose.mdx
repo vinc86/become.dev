@@ -1,0 +1,165 @@
+
+---
+lessonId: "01"
+title: "Variables and Values"
+sectionCount: 4
+---
+
+## What Variables Actually Are
+
+A variable is a named container that holds a value in your computer's memory. When you write `let username = "alex"`, you're telling JavaScript to reserve a slot in memory, label it `username`, and store the text `"alex"` there. Every time you reference `username` after that, JavaScript goes to that memory slot and retrieves whatever is currently stored.
+
+This matters because programs are fundamentally about transforming data. A shopping cart starts empty, items get added, prices get calculated, and a total emerges. Variables let you hold onto data as it changes throughout that process.
+
+```js
+// A real scenario: tracking items in a cart
+let itemCount = 0;
+let cartTotal = 0;
+
+// User adds a $29.99 item
+itemCount = itemCount + 1;
+cartTotal = cartTotal + 29.99;
+
+console.log(itemCount); // 1
+console.log(cartTotal); // 29.99
+```
+
+The `=` sign doesn't mean "equals" in the mathematical sense. It means "assign the value on the right to the variable on the left." The expression `itemCount = itemCount + 1` reads the current value (0), adds 1, and stores the result (1) back into the same variable.
+
+> **Simply Put:** Variables are labeled boxes in memory. You put values in them, read values from them, and update them as your program runs.
+
+## let, const, and the Ghost of var
+
+JavaScript has three keywords for creating variables: `let`, `const`, and `var`. In modern code, you'll use `let` and `const` almost exclusively.
+
+**const** creates a variable that cannot be reassigned. Once you set it, that's it.
+
+```js
+const API_URL = "https://api.example.com";
+const TAX_RATE = 0.08;
+
+// This will throw an error
+API_URL = "https://other.com"; // TypeError: Assignment to constant variable
+```
+
+Use `const` by default. It signals to other developers (and your future self) that this value shouldn't change. Configuration values, imported modules, and function references are natural fits for `const`.
+
+**let** creates a variable you can reassign.
+
+```js
+let currentUser = null;
+
+// User logs in
+currentUser = { id: 1, name: "Jordan" };
+
+// User logs out
+currentUser = null;
+```
+
+Use `let` when the value needs to change during execution — loop counters, accumulated totals, state that updates over time.
+
+**var** is the original way to declare variables in JavaScript. It has confusing scoping rules that lead to bugs. You'll encounter it in older codebases, but don't use it in new code.
+
+```js
+// var has function scope, not block scope — this is confusing
+if (true) {
+  var leaked = "I escape the block";
+}
+console.log(leaked); // "I escape the block" — probably not what you wanted
+
+// let has block scope — much more predictable
+if (true) {
+  let contained = "I stay in the block";
+}
+console.log(contained); // ReferenceError: contained is not defined
+```
+
+> **Simply Put:** Use `const` when a value won't change. Use `let` when it will. Avoid `var` in new code — it has confusing behavior that `let` and `const` fixed.
+
+## Naming Variables Well
+
+Variable names in JavaScript must start with a letter, underscore (`_`), or dollar sign (`$`). After that, you can use letters, numbers, underscores, or dollar signs. Names are case-sensitive: `userName`, `UserName`, and `username` are three different variables.
+
+```js
+// Valid names
+let userName = "alex";
+let _privateData = "internal";
+let $element = document.querySelector("#app");
+let item2 = "second item";
+
+// Invalid names
+let 2items = "nope";     // Can't start with a number
+let user-name = "nope";  // Hyphens aren't allowed
+let class = "nope";      // Reserved word
+```
+
+JavaScript reserves certain words for its own use: `class`, `function`, `return`, `if`, `else`, `const`, `let`, and about 60 others. You can't use these as variable names.
+
+The convention in JavaScript is **camelCase**: start lowercase, capitalize each subsequent word. `firstName`, `isLoggedIn`, `calculateTotalPrice`. Constants that represent fixed configuration values often use **SCREAMING_SNAKE_CASE**: `MAX_RETRIES`, `API_BASE_URL`.
+
+Good names describe what the variable contains, not how it's used.
+
+```js
+// Unclear
+let d = new Date();
+let flag = true;
+let temp = users.filter(u => u.active);
+
+// Clear
+let registrationDate = new Date();
+let isEmailVerified = true;
+let activeUsers = users.filter(u => u.active);
+```
+
+Your variable names are documentation. Six months from now, `isEmailVerified` tells you exactly what it represents. `flag` tells you nothing.
+
+## Assignment and Reassignment
+
+When you declare a variable, you can initialize it with a value immediately or leave it undefined.
+
+```js
+let score = 0;        // Declared and initialized
+let playerName;       // Declared but not initialized
+console.log(playerName); // undefined
+```
+
+An uninitialized variable has the special value `undefined` — JavaScript's way of saying "this exists but has no value yet."
+
+Reassignment replaces the current value with a new one. The old value is discarded.
+
+```js
+let status = "pending";
+status = "approved";
+status = "shipped";
+// "pending" and "approved" are gone — status now holds "shipped"
+```
+
+JavaScript has shorthand operators for common reassignment patterns:
+
+```js
+let count = 10;
+
+count = count + 1;  // Verbose
+count += 1;         // Shorthand for addition
+count++;            // Shorthand for adding 1
+
+count -= 5;         // Subtract and assign
+count *= 2;         // Multiply and assign
+count /= 4;         // Divide and assign
+```
+
+One subtle point: `const` prevents reassignment, but it doesn't make objects immutable. You can still modify the contents of a `const` object — you just can't point the variable at a different object.
+
+```js
+const user = { name: "Alex", role: "admin" };
+user.role = "editor";     // This works — we're modifying the object
+user = { name: "Jordan" }; // This fails — we're trying to reassign
+
+const scores = [85, 92, 78];
+scores.push(95);          // This works — we're modifying the array
+scores = [100, 100, 100]; // This fails — we're trying to reassign
+```
+
+Immutability patterns are covered in a later module — for now, just know that `const` prevents reassignment but doesn't freeze objects.
+
+> **Simply Put:** `=` assigns a value. `const` prevents reassignment but doesn't freeze objects. Uninitialized variables hold `undefined`.

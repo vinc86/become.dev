@@ -1,0 +1,84 @@
+[
+  {
+    "type": "MCQ",
+    "question": "What does the DOM represent?",
+    "options": [
+      "The original HTML file on the server",
+      "A live, in-memory representation of the page that JavaScript can manipulate",
+      "The CSS styles applied to elements",
+      "The JavaScript code running on the page"
+    ],
+    "correctIndex": 1,
+    "explanation": "The DOM is a live representation that the browser builds from HTML. It's a tree of objects in memory, not the original file. JavaScript modifies this in-memory representation, which updates what users see. The original HTML file remains unchanged."
+  },
+  {
+    "type": "MCQ",
+    "question": "What does querySelector return if no element matches the selector?",
+    "options": ["undefined", "An empty NodeList", "null", "Throws an error"],
+    "correctIndex": 2,
+    "explanation": "`querySelector` returns `null` when no element matches. This is different from `querySelectorAll`, which returns an empty NodeList. It's also different from `undefined` (what you get from uninitialized variables). Always check for `null` before accessing properties on the result."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "A developer writes this code to update prices on a product page:\n\n```js\nconst priceElement = document.querySelector('.price');\npriceElement.innerHTML = '$' + userInput;\n```\n\nWhere `userInput` comes from a form field the user filled in.",
+    "question": "What security issue does this code have?",
+    "options": [
+      "The selector might not find the element",
+      "Using innerHTML with user input can allow cross-site scripting (XSS) attacks",
+      "The dollar sign should be escaped",
+      "User input is always a number, so no issue"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B is correct. If `userInput` contains HTML like `<script>maliciousCode()</script>`, `innerHTML` will parse and execute it. This is a cross-site scripting (XSS) vulnerability. Use `textContent` instead when displaying user input — it treats content as plain text and won't execute scripts."
+  },
+  {
+    "type": "MCQ",
+    "question": "What is the difference between textContent and innerHTML?",
+    "options": [
+      "textContent is faster, innerHTML is slower",
+      "textContent returns/sets plain text, innerHTML returns/sets HTML including tags",
+      "innerHTML only works on div elements",
+      "textContent includes HTML tags, innerHTML doesn't"
+    ],
+    "correctIndex": 1,
+    "explanation": "`textContent` treats content as plain text — HTML tags are shown literally, not parsed. `innerHTML` treats content as HTML — tags are parsed and rendered. Use `textContent` for user-provided content (safer) and `innerHTML` when you need to insert actual HTML elements."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You have a todo list application. When a user checks off an item, you want to add a 'completed' class to it while keeping the existing classes.\n\n```html\n<li class=\"todo-item priority-high\">Buy groceries</li>\n```",
+    "question": "Which approach correctly adds the 'completed' class without removing existing classes?",
+    "options": [
+      "element.className = 'completed'",
+      "element.classList.add('completed')",
+      "element.setAttribute('class', 'completed')",
+      "element.class = 'completed'"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B, `classList.add()`, adds a class without affecting existing classes. The element would have `class=\"todo-item priority-high completed\"`. Options A and C both replace all existing classes with just 'completed'. Option D is invalid — there's no `class` property (the property name is `className`)."
+  },
+  {
+    "type": "MCQ",
+    "question": "What does document.createElement('div') return?",
+    "options": [
+      "A string containing '<div></div>'",
+      "A reference to a new div element that is NOT yet in the DOM",
+      "A reference to the first div in the document",
+      "null if there are no divs on the page"
+    ],
+    "correctIndex": 1,
+    "explanation": "`createElement` creates a new element in memory and returns a reference to it. The element is not automatically added to the page — you must explicitly add it using `appendChild`, `append`, or similar methods. This lets you configure the element before it appears on the page."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "A junior developer writes code to display a list of users:\n\n```js\nfunction displayUsers(users) {\n  const list = document.querySelector('#user-list');\n  users.forEach(user => {\n    list.innerHTML += '<li>' + user.name + '</li>';\n  });\n}\n```\n\nThe code works, but a senior developer says it has a performance problem.",
+    "question": "What is the performance issue with this approach?",
+    "options": [
+      "forEach is slower than a for loop",
+      "Each innerHTML assignment causes the browser to re-parse the entire list",
+      "querySelector is slower than getElementById",
+      "The function should return the list element"
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B is correct. Each `innerHTML +=` reads the current HTML, appends to it as a string, then re-parses the entire combined HTML. With 1000 users, the browser parses the HTML 1000 times, with the content growing each time. A better approach: build an array of HTML strings and set `innerHTML` once, or create elements with `createElement` and `appendChild`."
+  }
+]

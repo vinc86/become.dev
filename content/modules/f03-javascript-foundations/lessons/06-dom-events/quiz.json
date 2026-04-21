@@ -1,0 +1,101 @@
+[
+  {
+    "type": "MCQ",
+    "question": "What is the purpose of event.preventDefault()?",
+    "options": [
+      "It removes the event listener",
+      "It stops the event from bubbling to parent elements",
+      "It stops the browser's default behavior for the event",
+      "It prevents other event handlers from running"
+    ],
+    "correctIndex": 2,
+    "explanation": "`preventDefault()` stops the browser's built-in response to the event. For a form submit, that means not reloading the page. For a link click, not navigating. Option B describes `stopPropagation()`. Option D isn't quite right — other handlers on the same element still run unless you use `stopImmediatePropagation()`."
+  },
+  {
+    "type": "MCQ",
+    "question": "What is the difference between event.target and event.currentTarget?",
+    "options": [
+      "They're the same thing with different names",
+      "target is the element that triggered the event; currentTarget is the element the listener is attached to",
+      "currentTarget is the element that triggered the event; target is the element the listener is attached to",
+      "target only exists for click events"
+    ],
+    "correctIndex": 1,
+    "explanation": "`target` is the element that actually received the event (what the user clicked). `currentTarget` is the element whose listener is currently running. They're the same when the listener is on the clicked element, but different when using event delegation — you listen on a parent but the user clicks a child."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You're building a modal dialog. When the user clicks anywhere outside the modal content (on the dark overlay), the modal should close. The HTML structure is:\n\n```html\n<div class=\"modal-overlay\">\n  <div class=\"modal-content\">\n    <h2>Title</h2>\n    <p>Content...</p>\n  </div>\n</div>\n```",
+    "question": "Which approach correctly closes the modal only when clicking the overlay, not the content?",
+    "options": [
+      "overlay.addEventListener('click', close); content.addEventListener('click', e => e.preventDefault());",
+      "overlay.addEventListener('click', e => { if (e.target === overlay) close(); });",
+      "content.addEventListener('click', close);",
+      "overlay.addEventListener('click', close); This automatically ignores clicks on children."
+    ],
+    "correctIndex": 1,
+    "explanation": "Option B checks if the click target is the overlay itself (not a child). Clicks on modal-content bubble up to the overlay, but `e.target` will be the content, not the overlay. Option A doesn't work because preventDefault doesn't stop bubbling. Option C closes on content click, the opposite of what we want. Option D would close on any click, including on the content."
+  },
+  {
+    "type": "MCQ",
+    "question": "Why can't you remove an anonymous function added as an event listener?",
+    "options": [
+      "Anonymous functions are automatically permanent",
+      "You need the exact same function reference to remove it, but anonymous functions have no stored reference",
+      "removeEventListener doesn't exist for anonymous functions",
+      "You can remove them using removeEventListener(event, null)"
+    ],
+    "correctIndex": 1,
+    "explanation": "`removeEventListener` needs the exact same function object that was added. When you write an anonymous function inline, there's no variable holding a reference to it. Even writing an identical function creates a new, different function object. To remove listeners, store the function in a variable first."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "A developer needs to track how many characters a user has typed into a text field and show it in real-time. They write:\n\n```js\ninput.addEventListener('change', function() {\n  counter.textContent = input.value.length;\n});\n```\n\nThe counter only updates after the user clicks away from the field, not while typing.",
+    "question": "What event should be used instead?",
+    "options": [
+      "keypress",
+      "input",
+      "blur",
+      "focus"
+    ],
+    "correctIndex": 1,
+    "explanation": "The `input` event fires on every character typed (or deleted), giving real-time feedback. The `change` event only fires when the field loses focus after its value has changed. `keypress` is deprecated and doesn't fire for all keys. `blur` fires on focus loss. `focus` fires when the field gains focus."
+  },
+  {
+    "type": "MCQ",
+    "question": "What is event delegation?",
+    "options": [
+      "Passing events from JavaScript to the browser",
+      "Listening for events on a parent element and checking which child triggered the event",
+      "Creating custom events",
+      "Preventing event bubbling"
+    ],
+    "correctIndex": 1,
+    "explanation": "Event delegation means adding one listener to a parent element instead of many listeners to children. When an event bubbles up from a child, you check `event.target` to see which specific child was interacted with. This is more efficient and automatically handles dynamically added children."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You have a button with this handler:\n\n```js\nbutton.addEventListener('click', () => {\n  console.log('A');\n});\n\nbutton.addEventListener('click', () => {\n  console.log('B');\n});\n```",
+    "question": "What is logged when the button is clicked once?",
+    "options": [
+      "Only 'A' — the second listener replaces the first",
+      "Only 'B' — the most recent listener wins",
+      "'A' and then 'B' — both listeners run in order",
+      "An error — you can't add multiple listeners"
+    ],
+    "correctIndex": 2,
+    "explanation": "You can add multiple listeners for the same event on the same element. They all run in the order they were added. This is different from the old `onclick` property, where assigning a new handler replaced the previous one. `addEventListener` is additive."
+  },
+  {
+    "type": "MCQ",
+    "question": "When does the DOMContentLoaded event fire?",
+    "options": [
+      "When all images and stylesheets have finished loading",
+      "When the HTML is fully parsed and the DOM tree is built, but before external resources finish",
+      "When the user first interacts with the page",
+      "Immediately when the script tag is encountered"
+    ],
+    "correctIndex": 1,
+    "explanation": "`DOMContentLoaded` fires when the HTML document has been fully parsed and the DOM tree is complete. It doesn't wait for stylesheets, images, or other external resources. This makes it faster than the `load` event, which waits for everything. Use `DOMContentLoaded` to run JavaScript that manipulates the DOM as soon as it's ready."
+  }
+]

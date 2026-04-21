@@ -1,0 +1,56 @@
+[
+  {
+    "type": "MCQ",
+    "question": "Which of the following is NOT a primitive type in JavaScript?",
+    "options": ["String", "Boolean", "Array", "Symbol"],
+    "correctIndex": 2,
+    "explanation": "Array is not a primitive type — it's an object. The seven primitive types are: String, Number, Boolean, undefined, null, Symbol, and BigInt. Arrays, objects, and functions are all non-primitive (reference) types."
+  },
+  {
+    "type": "MCQ",
+    "question": "What is the result of `Number(\"42abc\")`?",
+    "options": ["42", "\"42\"", "NaN", "Error"],
+    "correctIndex": 2,
+    "explanation": "`Number()` tries to convert the entire string to a number. Since `\"42abc\"` contains non-numeric characters, the conversion fails and returns `NaN` (Not a Number). If you want to extract just the leading number, use `parseInt(\"42abc\")` which returns `42`."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "You're debugging a form submission. The user enters their age in a text input, and your code calculates years until retirement (age 65). The user enters \"30\" but sees \"6530\" as the years remaining instead of 35.",
+    "question": "What's causing this bug?",
+    "options": [
+      "The retirement age constant is wrong",
+      "The input value is a string, and + is doing concatenation instead of addition",
+      "JavaScript doesn't support subtraction with ages",
+      "The form is submitting before the calculation runs"
+    ],
+    "correctIndex": 1,
+    "explanation": "Form input values are always strings. When you do `65 + inputValue` where `inputValue` is `\"30\"`, the `+` operator concatenates because one operand is a string, giving `\"6530\"`. The fix is to convert the input to a number first: `65 - Number(inputValue)` or `65 - parseInt(inputValue)`."
+  },
+  {
+    "type": "MCQ",
+    "question": "Which value is truthy?",
+    "options": ["0", "\"\"", "null", "\"0\""],
+    "correctIndex": 3,
+    "explanation": "`\"0\"` is truthy because it's a non-empty string. The string contains the character zero, but it's still a string with length 1. The other options are all falsy: `0` (the number zero), `\"\"` (empty string), and `null`."
+  },
+  {
+    "type": "SCENARIO",
+    "setup": "Your API returns a user object with a `bio` field that might be null, undefined, or an empty string. Your colleague suggests this check:\n\n```js\nif (user.bio) {\n  displayBio(user.bio);\n} else {\n  displayBio(\"No bio provided\");\n}\n```\n\nA user complains that their bio \" \" (a single space) sometimes doesn't display correctly.",
+    "question": "What's wrong with this approach?",
+    "options": [
+      "Nothing — the code handles all cases correctly",
+      "The empty string check will fail because empty strings are truthy",
+      "A bio of \" \" (whitespace only) is truthy, so it displays as a single space instead of the fallback",
+      "null values will crash the displayBio function"
+    ],
+    "correctIndex": 2,
+    "explanation": "Option C is correct. The string `\" \"` (a single space) is truthy because it's not empty — it has length 1. So `if (user.bio)` passes, and you display a single space. A better approach might be `if (user.bio && user.bio.trim())` to also reject whitespace-only strings. Option B is wrong because empty strings ARE falsy. Option D might or might not be true depending on the function, but it's not the reported bug."
+  },
+  {
+    "type": "MCQ",
+    "question": "What does `typeof []` return?",
+    "options": ["\"array\"", "\"object\"", "\"Array\"", "\"undefined\""],
+    "correctIndex": 1,
+    "explanation": "`typeof []` returns `\"object\"` because arrays are technically objects in JavaScript. There's no built-in `\"array\"` type in the `typeof` results. To check if something is specifically an array, use `Array.isArray(value)` instead."
+  }
+]

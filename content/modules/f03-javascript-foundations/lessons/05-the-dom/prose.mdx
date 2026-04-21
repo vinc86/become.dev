@@ -1,0 +1,251 @@
+---
+lessonId: "05"
+title: "The DOM"
+sectionCount: 4
+---
+
+## What the DOM Actually Is
+
+The Document Object Model is a programming interface that browsers create when they load an HTML page. It represents your HTML as a tree of objects that JavaScript can manipulate. Without the DOM, JavaScript couldn't change anything on a web page — it would just be a scripting language with no way to interact with what users see.
+
+When a browser loads this HTML:
+
+```html
+<html>
+  <body>
+    <h1>Welcome</h1>
+    <p>Hello, world!</p>
+  </body>
+</html>
+```
+
+It creates a tree structure in memory:
+
+```
+document
+  └── html
+        └── body
+              ├── h1 ("Welcome")
+              └── p ("Hello, world!")
+```
+
+Each element becomes a node in this tree. The `document` object is the root — it's your entry point to the entire page. When you write `document.querySelector('h1')`, you're asking the browser to search this tree and return the node that matches.
+
+The DOM isn't your HTML file. It's a live representation that the browser builds from your HTML. JavaScript changes the DOM, not the original HTML file. This is why you can modify a page dynamically without editing any files.
+
+> **Simply Put:** The DOM is the browser's live model of your page. It turns HTML into a tree of objects that JavaScript can read and modify.
+
+## Selecting Elements
+
+Before you can change an element, you need to get a reference to it. The `document` object provides methods to find elements in the DOM tree.
+
+**querySelector** — finds the first element matching a CSS selector:
+
+```js
+// By tag name
+const heading = document.querySelector('h1');
+
+// By class
+const card = document.querySelector('.card');
+
+// By ID
+const nav = document.querySelector('#main-nav');
+
+// Complex selector
+const firstItem = document.querySelector('ul.menu > li:first-child');
+```
+
+`querySelector` returns the first match, or `null` if nothing matches. Always check for `null` before using the result:
+
+```js
+const button = document.querySelector('.submit-btn');
+if (button) {
+  // Safe to use button
+  button.textContent = 'Loading...';
+}
+```
+
+**querySelectorAll** — finds all matching elements:
+
+```js
+const allCards = document.querySelectorAll('.card');
+console.log(allCards.length);  // Number of matching elements
+
+// Loop through results
+allCards.forEach(card => {
+  card.classList.add('visible');
+});
+```
+
+`querySelectorAll` returns a NodeList — an array-like collection. It's never null, but it can be empty (length 0) if nothing matches.
+
+**Older selection methods** — you'll see these in existing code:
+
+```js
+const nav = document.getElementById('main-nav');          // By ID only
+const items = document.getElementsByClassName('item');    // By class only
+const paragraphs = document.getElementsByTagName('p');    // By tag only
+```
+
+These still work, but `querySelector` and `querySelectorAll` are more flexible because they accept any CSS selector.
+
+> **Simply Put:** Use `querySelector` to find one element, `querySelectorAll` to find many. They accept any CSS selector.
+
+## Reading and Modifying Content
+
+Once you have an element, you can read its content, change it, or modify its attributes.
+
+**textContent** — the text inside an element, with no HTML:
+
+```js
+const heading = document.querySelector('h1');
+console.log(heading.textContent);  // "Welcome"
+
+heading.textContent = 'Hello!';    // Changes the heading text
+```
+
+Setting `textContent` replaces everything inside the element, including any child elements. It treats the new content as plain text — HTML tags won't be parsed.
+
+```js
+element.textContent = '<strong>Bold</strong>';  
+// Shows literally "<strong>Bold</strong>" — not bold text
+```
+
+**innerHTML** — the HTML content inside an element:
+
+```js
+const container = document.querySelector('.container');
+console.log(container.innerHTML);  // "<h1>Welcome</h1><p>Hello!</p>"
+
+container.innerHTML = '<h2>New Title</h2>';  // Replaces content with parsed HTML
+```
+
+Use `innerHTML` when you need to insert HTML. Be careful: setting `innerHTML` with user input creates security vulnerabilities (cross-site scripting). Never do this:
+
+```js
+// DANGEROUS — don't do this
+container.innerHTML = userProvidedText;
+```
+
+**Attributes** — read and set element attributes:
+
+```js
+const link = document.querySelector('a');
+
+// Reading attributes
+const href = link.getAttribute('href');
+const target = link.getAttribute('target');
+
+// Setting attributes
+link.setAttribute('href', 'https://example.com');
+link.setAttribute('target', '_blank');
+
+// Some attributes have direct properties
+const input = document.querySelector('input');
+input.value = 'New value';
+input.disabled = true;
+input.checked = true;  // For checkboxes
+```
+
+**Classes** — add, remove, and toggle CSS classes:
+
+```js
+const card = document.querySelector('.card');
+
+card.classList.add('active');
+card.classList.remove('hidden');
+card.classList.toggle('expanded');  // Add if missing, remove if present
+card.classList.contains('active');  // Returns true or false
+```
+
+**Inline styles** — modify CSS directly:
+
+```js
+const box = document.querySelector('.box');
+
+box.style.backgroundColor = 'blue';  // Note: camelCase, not kebab-case
+box.style.display = 'none';
+box.style.marginTop = '20px';        // Include units
+```
+
+Prefer adding/removing classes over inline styles. Classes keep styling in CSS where it belongs and are easier to maintain.
+
+> **Simply Put:** `textContent` for plain text, `innerHTML` for HTML. Use `classList` to toggle CSS classes. Check for null after selecting elements.
+
+## Creating and Removing Elements
+
+You can create new elements with JavaScript and add them to the page — or remove existing ones.
+
+**Creating elements:**
+
+```js
+// Create a new element
+const newParagraph = document.createElement('p');
+newParagraph.textContent = 'This paragraph was created by JavaScript.';
+newParagraph.classList.add('dynamic');
+
+// Add it to the page
+const container = document.querySelector('.container');
+container.appendChild(newParagraph);  // Adds at the end
+```
+
+`appendChild` adds the new element as the last child. For more control over placement:
+
+```js
+const list = document.querySelector('ul');
+const newItem = document.createElement('li');
+newItem.textContent = 'New item';
+
+// Insert at specific positions
+list.prepend(newItem);                           // First child
+list.append(newItem);                            // Last child
+existingItem.before(newItem);                    // Before existingItem
+existingItem.after(newItem);                     // After existingItem
+list.insertBefore(newItem, list.children[2]);   // Insert before current index 2, new item becomes index 2
+```
+
+**Removing elements:**
+
+```js
+const element = document.querySelector('.to-remove');
+element.remove();  // Removes the element from the DOM
+
+// Older approach (still common in tutorials)
+element.parentNode.removeChild(element);
+```
+
+**Cloning elements:**
+
+```js
+const template = document.querySelector('.card-template');
+const clone = template.cloneNode(true);  // true = deep clone (include children)
+clone.querySelector('.title').textContent = 'New Card';
+container.appendChild(clone);
+```
+
+**Building dynamic UI** — a realistic example:
+
+```js
+function renderUserList(users) {
+  const list = document.querySelector('#user-list');
+  list.innerHTML = '';  // Clear existing content
+  
+  users.forEach(user => {
+    const li = document.createElement('li');
+    li.textContent = user.name;
+    li.dataset.userId = user.id;  // Set data-user-id attribute
+    list.appendChild(li);
+  });
+}
+
+// Usage
+renderUserList([
+  { id: 1, name: 'Alice' },
+  { id: 2, name: 'Bob' },
+  { id: 3, name: 'Carol' }
+]);
+```
+
+[→ P03: React Foundations] covers declarative UI rendering, which replaces much of this manual DOM manipulation.
+
+> **Simply Put:** `createElement` makes new elements, `appendChild` adds them to the page, `remove` deletes them. For dynamic lists and UI, you'll often clear and rebuild content.

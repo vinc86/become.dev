@@ -1,0 +1,281 @@
+---
+lessonId: "06"
+title: "DOM Events"
+sectionCount: 5
+---
+
+## How Events Work
+
+Every interaction on a web page — clicks, key presses, form submissions, scrolling — fires an event. Events are the browser's way of telling your JavaScript code that something happened. Without events, your page would be static. With them, you can respond to users in real time.
+
+When a user clicks a button, the browser creates a click event object containing information about what happened: which button was clicked, where the cursor was, whether any modifier keys were held. Your code can listen for this event and respond.
+
+```js
+const button = document.querySelector('#submit');
+
+button.addEventListener('click', function(event) {
+  console.log('Button was clicked!');
+  console.log('Target element:', event.target);
+});
+```
+
+The `addEventListener` method takes two arguments: the event type (a string like `'click'`) and a callback function to run when the event occurs. The callback receives an event object with details about what happened.
+
+This pattern — "when X happens, do Y" — is the foundation of interactive web development.
+
+> **Simply Put:** Events are notifications from the browser that something happened. You listen for them with `addEventListener` and run code in response.
+
+## Adding Event Listeners
+
+The `addEventListener` method is the modern way to handle events. You can attach multiple listeners to the same element, and they'll all run when the event fires.
+
+```js
+const button = document.querySelector('#action-btn');
+
+// Add a click handler
+button.addEventListener('click', function() {
+  console.log('First handler');
+});
+
+// Add another click handler — both will run
+button.addEventListener('click', function() {
+  console.log('Second handler');
+});
+```
+
+For cleaner code, define named functions instead of anonymous ones:
+
+```js
+function handleClick() {
+  console.log('Button clicked');
+}
+
+function trackAnalytics() {
+  console.log('Sending analytics event');
+}
+
+button.addEventListener('click', handleClick);
+button.addEventListener('click', trackAnalytics);
+```
+
+Named functions have another advantage: you can remove them later.
+
+```js
+button.removeEventListener('click', handleClick);
+```
+
+To remove a listener, you must pass the exact same function reference. This is why anonymous functions can't be removed — you have no reference to pass.
+
+```js
+// This doesn't work — different function references
+button.addEventListener('click', function() { console.log('Hi'); });
+button.removeEventListener('click', function() { console.log('Hi'); }); // No effect
+```
+
+**Common mistake**: calling the function instead of passing it.
+
+```js
+// Wrong — calls the function immediately
+button.addEventListener('click', handleClick());
+
+// Right — passes the function to be called later
+button.addEventListener('click', handleClick);
+```
+
+> **Simply Put:** `addEventListener` attaches code to run when an event happens. Use named functions if you need to remove the listener later.
+
+## The Event Object
+
+Every event handler receives an event object as its first argument. This object contains information about what happened and which element was involved.
+
+```js
+document.addEventListener('click', function(event) {
+  console.log('Event type:', event.type);           // "click"
+  console.log('Target element:', event.target);      // The clicked element
+  console.log('Mouse X:', event.clientX);            // X position in viewport
+  console.log('Mouse Y:', event.clientY);            // Y position in viewport
+  console.log('Shift key held:', event.shiftKey);    // Boolean
+});
+```
+
+**event.target** is the element that triggered the event — the actual thing that was clicked, typed in, or interacted with.
+
+**event.currentTarget** is the element the listener is attached to. They're often the same, but not always:
+
+```js
+// Listener on the parent
+document.querySelector('ul').addEventListener('click', function(event) {
+  console.log(event.target);        // The clicked li
+  console.log(event.currentTarget); // The ul
+});
+```
+
+**Preventing default behavior** — many events have default browser actions. A form submit navigates to a new page. A link click navigates to the href. You can stop these:
+
+```js
+const form = document.querySelector('form');
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();  // Stop the form from submitting normally
+  // Now handle submission with JavaScript
+  console.log('Form submitted via JavaScript');
+});
+
+const link = document.querySelector('a');
+link.addEventListener('click', function(event) {
+  event.preventDefault();  // Stop navigation
+  console.log('Link clicked, but not navigating');
+});
+```
+
+**Stopping propagation** — events bubble up through the DOM tree. A click on a button inside a div also triggers click handlers on the div, and its parent, and so on. You can stop this:
+
+```js
+button.addEventListener('click', function(event) {
+  event.stopPropagation();  // Parent elements won't receive this event
+  console.log('Only button handler runs');
+});
+```
+
+> **Simply Put:** The event object tells you what happened (type), where (target), and lets you prevent default behavior or stop bubbling.
+
+## Common Event Types
+
+Different events fire for different interactions. Knowing which event to listen for is half the battle.
+
+**Mouse events:**
+
+```js
+element.addEventListener('click', handler);      // Mouse click (or touch tap)
+element.addEventListener('dblclick', handler);   // Double click
+element.addEventListener('mouseenter', handler); // Mouse enters element
+element.addEventListener('mouseleave', handler); // Mouse leaves element
+element.addEventListener('mousemove', handler);  // Mouse moves over element
+```
+
+**Keyboard events:**
+
+```js
+document.addEventListener('keydown', function(event) {
+  console.log('Key pressed:', event.key);    // "Enter", "a", "Escape", etc.
+  console.log('Key code:', event.code);      // "Enter", "KeyA", "Escape", etc.
+  
+  if (event.key === 'Escape') {
+    closeModal();
+  }
+});
+
+document.addEventListener('keyup', handler);     // Key released
+```
+
+`keydown` fires when a key is pressed (and repeats if held). `keyup` fires when released.
+
+**Form events:**
+
+```js
+input.addEventListener('input', function(event) {
+  // Fires on every character typed
+  console.log('Current value:', event.target.value);
+});
+
+input.addEventListener('change', function(event) {
+  // Fires when field loses focus after changing
+  console.log('Final value:', event.target.value);
+});
+
+input.addEventListener('focus', handler);  // Element gains focus
+input.addEventListener('blur', handler);   // Element loses focus
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  // Process form data
+});
+```
+
+**Window and document events:**
+
+```js
+window.addEventListener('load', handler);         // Page fully loaded
+document.addEventListener('DOMContentLoaded', handler);  // DOM ready (faster)
+window.addEventListener('resize', handler);       // Window resized
+window.addEventListener('scroll', handler);       // Page scrolled
+```
+
+`DOMContentLoaded` fires when the HTML is parsed and the DOM is ready, before images and stylesheets finish loading. `load` waits for everything.
+
+> **Simply Put:** Use `click` for buttons, `submit` for forms, `input` for real-time typing feedback, `change` for final values, and `DOMContentLoaded` to run code when the page is ready.
+
+## Event Delegation
+
+Instead of adding listeners to many elements, add one listener to a parent and check which child was clicked. This is called event delegation, and it's more efficient and handles dynamically added elements.
+
+```js
+// Without delegation — listener on each item
+document.querySelectorAll('.todo-item').forEach(item => {
+  item.addEventListener('click', function(event) {
+    event.target.classList.toggle('completed');
+  });
+});
+
+// Problem: items added later don't have listeners
+```
+
+```js
+// With delegation — one listener on the parent
+document.querySelector('.todo-list').addEventListener('click', function(event) {
+  // Check if the clicked element is a todo item
+  if (event.target.classList.contains('todo-item')) {
+    event.target.classList.toggle('completed');
+  }
+});
+
+// Now any todo-item, even dynamically added ones, will work
+```
+
+When an event fires, it bubbles up from the target element through its parents. By listening on a parent, you catch events from all children — even those added after the listener was set up.
+
+**Practical example — a product list:**
+
+```js
+const productList = document.querySelector('.product-list');
+
+productList.addEventListener('click', function(event) {
+  // Handle "Add to Cart" buttons
+  if (event.target.classList.contains('add-to-cart')) {
+    const productId = event.target.dataset.productId;
+    addToCart(productId);
+  }
+  
+  // Handle "Quick View" buttons
+  if (event.target.classList.contains('quick-view')) {
+    const productId = event.target.dataset.productId;
+    showQuickView(productId);
+  }
+});
+```
+
+One listener handles multiple action types on unlimited product items.
+
+**Using closest for nested elements:**
+
+Sometimes the clicked element is inside the target you care about:
+
+```js
+// HTML: <button class="add-to-cart"><span class="icon">+</span> Add</button>
+// Clicking the span means event.target is the span, not the button
+
+productList.addEventListener('click', function(event) {
+  const button = event.target.closest('.add-to-cart');
+  if (button) {
+    const productId = button.dataset.productId;
+    addToCart(productId);
+  }
+});
+```
+
+`closest` traverses up the DOM tree to find the nearest ancestor (or self) matching the selector.
+
+[→ F04: JavaScript Core Depth] covers event delegation patterns in more detail.
+
+> **Simply Put:** Event delegation means listening on a parent instead of many children. Use `event.target` to see what was clicked, and `closest()` to find a specific ancestor.

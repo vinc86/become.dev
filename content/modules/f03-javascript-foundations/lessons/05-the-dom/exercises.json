@@ -1,0 +1,88 @@
+[
+  {
+    "type": "PREDICT",
+    "question": "What does this code log?",
+    "code": "// HTML: <p class=\"message\">Hello</p>\nconst element = document.querySelector('.message');\nconsole.log(element.textContent);",
+    "options": ["<p class=\"message\">Hello</p>", "Hello", ".message", "null"],
+    "correctIndex": 1,
+    "explanation": "`textContent` returns only the text content of an element, without any HTML tags. It returns \"Hello\", not the outer HTML or the selector used to find it. If the element didn't exist, `element` would be `null` and accessing `.textContent` would throw an error."
+  },
+  {
+    "type": "PREDICT",
+    "question": "What does the page show after this code runs?",
+    "code": "// HTML: <div id=\"output\"></div>\nconst div = document.querySelector('#output');\ndiv.textContent = '<strong>Bold</strong>';",
+    "options": [
+      "The word Bold in bold text",
+      "The literal text <strong>Bold</strong>",
+      "An empty div",
+      "An error — can't set textContent"
+    ],
+    "correctIndex": 1,
+    "explanation": "`textContent` treats everything as plain text, not HTML. The angle brackets and tag names are displayed literally as text. If you wanted the HTML to be parsed and rendered (showing bold text), you'd use `innerHTML` instead."
+  },
+  {
+    "type": "IDENTIFY",
+    "question": "This code should update a button's text, but it crashes. What's the bug?",
+    "code": "const button = document.querySelector('.submit-btn');\nbutton.textContent = 'Loading...';",
+    "options": [
+      "textContent can't be used on buttons",
+      "The selector should use getElementById",
+      "If no element matches, querySelector returns null, and you can't access properties on null",
+      "You need to use innerHTML for buttons"
+    ],
+    "correctIndex": 2,
+    "explanation": "If there's no element with class `submit-btn`, `querySelector` returns `null`. Accessing `.textContent` on `null` throws a TypeError. The fix is to check if the element exists before using it: `if (button) { button.textContent = 'Loading...'; }`"
+  },
+  {
+    "type": "ORDER",
+    "question": "Arrange the steps to create a new list item and add it to an existing ul:",
+    "items": [
+      "Select the existing ul element with querySelector",
+      "Create a new li element with createElement",
+      "Set the text content of the new li",
+      "Append the new li to the ul"
+    ],
+    "correctOrder": [0, 1, 2, 3],
+    "explanation": "First, you need a reference to the parent element where you'll add the new content. Then create the new element, configure it (text, classes, attributes), and finally add it to the DOM. You can't append an element to a parent you haven't selected yet."
+  },
+  {
+    "type": "CLASSIFY",
+    "question": "Classify each method based on whether it returns one element or multiple elements:",
+    "items": [
+      { "label": "document.querySelector('.card')", "category": "One element (or null)" },
+      { "label": "document.querySelectorAll('.card')", "category": "Multiple elements (NodeList)" },
+      { "label": "document.getElementById('main')", "category": "One element (or null)" },
+      { "label": "document.getElementsByClassName('item')", "category": "Multiple elements (HTMLCollection)" },
+      { "label": "document.querySelector('#header')", "category": "One element (or null)" }
+    ],
+    "categories": ["One element (or null)", "Multiple elements (NodeList)", "Multiple elements (HTMLCollection)"],
+    "explanation": "`querySelector` and `getElementById` return a single element (or null if not found). `querySelectorAll` returns a NodeList. `getElementsByClassName` and `getElementsByTagName` return an HTMLCollection. The difference matters: NodeLists from `querySelectorAll` support `forEach`, but HTMLCollections do not — you need to convert them with `Array.from()` first."
+  },
+  {
+    "type": "FIX",
+    "question": "This code should hide an element by adding the 'hidden' class, but the approach is problematic. What's the better fix?",
+    "buggyCode": "const modal = document.querySelector('.modal');\nmodal.className = 'hidden';",
+    "options": [
+      "Use modal.classList.add('hidden') instead",
+      "Use modal.style.display = 'none' instead",
+      "Use modal.setAttribute('class', 'hidden') instead",
+      "Use modal.innerHTML = '' instead"
+    ],
+    "correctIndex": 0,
+    "explanation": "Setting `className` directly replaces ALL classes on the element. If the modal had `class=\"modal large animated\"`, this code would remove modal, large, and animated, leaving only hidden. Using `classList.add('hidden')` adds the class without removing existing ones. Option B works but mixes CSS into JavaScript. Options C and D have the same problem as the original."
+  },
+  {
+    "type": "IMPLEMENT",
+    "question": "Write a function that creates a notification element and adds it to the page.",
+    "setup": "Create a function called `showNotification` that takes a message string. The function should:\n1. Create a div element\n2. Add the class 'notification' to it\n3. Set its text content to the message\n4. Append it to the element with id 'notification-container'\n5. Return the created element",
+    "starterCode": "function showNotification(message) {\n  // Your code here\n}",
+    "tests": [
+      { "description": "Creates a div element", "expectation": "Returns an HTMLDivElement" },
+      { "description": "Has the 'notification' class", "expectation": "Element has classList containing 'notification'" },
+      { "description": "Contains the message text", "expectation": "textContent equals the passed message" },
+      { "description": "Is added to the container", "expectation": "Element is a child of #notification-container" }
+    ],
+    "solutionCode": "function showNotification(message) {\n  const notification = document.createElement('div');\n  notification.classList.add('notification');\n  notification.textContent = message;\n  \n  const container = document.querySelector('#notification-container');\n  if (container) {\n    container.appendChild(notification);\n  }\n  \n  return notification;\n}",
+    "explanation": "The solution follows the standard pattern for creating and adding elements: `createElement` to make the element, configure it with class and content, find the parent container, then `appendChild` to add it to the DOM. The null check on container prevents errors if the container element doesn't exist. Returning the element allows the caller to further manipulate it (e.g., to remove it later)."
+  }
+]

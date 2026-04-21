@@ -1,0 +1,89 @@
+[
+  {
+    "type": "PREDICT",
+    "question": "What does this code log when the button is clicked?",
+    "code": "const button = document.querySelector('button');\n\nbutton.addEventListener('click', function(event) {\n  console.log(event.type);\n});",
+    "options": ["'button'", "'click'", "undefined", "The button element"],
+    "correctIndex": 1,
+    "explanation": "`event.type` is a string containing the name of the event that occurred. For a click event, it's `'click'`. The event object always includes this property, which is useful when a single handler handles multiple event types."
+  },
+  {
+    "type": "IDENTIFY",
+    "question": "This code is supposed to add a click handler, but it runs immediately when the page loads instead of when clicked. What's wrong?",
+    "code": "function handleClick() {\n  console.log('Clicked!');\n}\n\nbutton.addEventListener('click', handleClick());",
+    "options": [
+      "addEventListener doesn't accept function names",
+      "The function is called immediately (note the parentheses) instead of passed as a reference",
+      "handleClick needs to accept an event parameter",
+      "The event type should be 'onclick'"
+    ],
+    "correctIndex": 1,
+    "explanation": "`handleClick()` calls the function immediately and passes its return value (undefined) to addEventListener. `handleClick` (without parentheses) passes the function itself, to be called later when the event fires. This is a very common mistake."
+  },
+  {
+    "type": "PREDICT",
+    "question": "What happens when the form is submitted?",
+    "code": "const form = document.querySelector('form');\n\nform.addEventListener('submit', function(event) {\n  event.preventDefault();\n  console.log('Form handled by JS');\n});",
+    "options": [
+      "The page reloads and navigates to the form's action URL",
+      "The page does not reload, and 'Form handled by JS' is logged",
+      "An error is thrown because forms can't have event listeners",
+      "Nothing happens — preventDefault cancels all code"
+    ],
+    "correctIndex": 1,
+    "explanation": "`event.preventDefault()` stops the default form submission behavior (which would reload the page). The handler continues executing, logging the message. This pattern is essential for handling forms with JavaScript — you prevent the default, then process the data yourself."
+  },
+  {
+    "type": "ORDER",
+    "question": "Arrange what happens when a user clicks a button inside a div (each element has a click handler):",
+    "items": [
+      "User clicks the button",
+      "Button's click handler executes",
+      "Event bubbles to the div",
+      "Div's click handler executes",
+      "Event continues bubbling to body, html, document"
+    ],
+    "correctOrder": [0, 1, 2, 3, 4],
+    "explanation": "Events bubble from the target element upward. Handlers execute as the event passes each level — the button's handler runs first, then the div's, and so on. This is why clicking a child element triggers handlers on all its ancestors."
+  },
+  {
+    "type": "CLASSIFY",
+    "question": "Classify each event based on when it typically fires:",
+    "items": [
+      { "label": "input", "category": "As the user types (every keystroke)" },
+      { "label": "change", "category": "When field loses focus after value changed" },
+      { "label": "click", "category": "When user clicks/taps" },
+      { "label": "submit", "category": "When form is submitted" },
+      { "label": "DOMContentLoaded", "category": "When page is ready" },
+      { "label": "keydown", "category": "When key is pressed" }
+    ],
+    "categories": ["As the user types (every keystroke)", "When field loses focus after value changed", "When user clicks/taps", "When form is submitted", "When page is ready", "When key is pressed"],
+    "explanation": "`input` fires on every character typed — good for live search or validation. `change` fires once when a field loses focus and its value has changed — good for final validation. `click` handles user interactions. `submit` fires when a form is submitted. `DOMContentLoaded` fires when the HTML is fully parsed. `keydown` fires when any key is pressed."
+  },
+  {
+    "type": "FIX",
+    "question": "This code attaches click handlers to todo items, but dynamically added items don't respond to clicks. A senior developer suggests using event delegation instead. What's wrong with the current approach?",
+    "buggyCode": "document.querySelectorAll('.todo-item').forEach(item => {\n  item.addEventListener('click', function() {\n    this.classList.toggle('completed');\n  });\n});",
+    "options": [
+      "Change 'click' to 'onclick'",
+      "This isn't event delegation — attach a single listener to the parent container instead",
+      "Use arrow functions instead of regular functions",
+      "Add the listeners inside a setTimeout"
+    ],
+    "correctIndex": 1,
+    "explanation": "The current code attaches listeners directly to each .todo-item that exists when the code runs. Dynamically added items don't get listeners. True event delegation attaches one listener to a parent element and checks event.target: `todoList.addEventListener('click', e => { if (e.target.classList.contains('todo-item')) ... })`"
+  },
+  {
+    "type": "IMPLEMENT",
+    "question": "Write a function that sets up a character counter for a text input.",
+    "setup": "Create a function called `setupCharacterCounter` that takes two parameters: an input element and a display element. When the user types in the input, update the display element to show the current character count. For example, if the user types 'Hello', the display should show '5'.\n\nThe function should:\n1. Add an event listener for the 'input' event\n2. Update the display's textContent with the current length\n3. Return a cleanup function that removes the listener",
+    "starterCode": "function setupCharacterCounter(inputElement, displayElement) {\n  // Your code here\n}",
+    "tests": [
+      { "description": "Updates display when user types", "expectation": "After typing 'test', displayElement.textContent equals '4'" },
+      { "description": "Works with empty input", "expectation": "With empty input, displayElement.textContent equals '0'" },
+      { "description": "Returns a cleanup function", "expectation": "Calling the returned function removes the event listener" }
+    ],
+    "solutionCode": "function setupCharacterCounter(inputElement, displayElement) {\n  function updateCount() {\n    displayElement.textContent = inputElement.value.length;\n  }\n  \n  inputElement.addEventListener('input', updateCount);\n  \n  // Initialize with current value\n  updateCount();\n  \n  // Return cleanup function\n  return function cleanup() {\n    inputElement.removeEventListener('input', updateCount);\n  };\n}",
+    "explanation": "The solution creates a named `updateCount` function so it can be both added and removed. The 'input' event fires on every keystroke. `inputElement.value.length` gives the character count. Initializing by calling `updateCount()` immediately handles any existing value. Returning a cleanup function follows good practice for components that might be removed."
+  }
+]

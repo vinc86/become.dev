@@ -1,0 +1,11 @@
+{
+  "id": "F03",
+  "title": "JavaScript Foundations",
+  "track": "foundations",
+  "paths": ["path-1", "path-2"],
+  "totalLessons": 6,
+  "version": "1.0",
+  "description": "Variables, types, functions, scope, and the DOM — the building blocks of every JavaScript program.",
+  "prerequisites": ["F01", "F02"],
+  "estimatedHours": 8
+}

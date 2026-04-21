@@ -1,0 +1,71 @@
+[
+  {
+    "type": "PREDICT",
+    "question": "What does this code log to the console?",
+    "code": "let price = 100;\nlet discount = 20;\nprice = price - discount;\nconsole.log(price);",
+    "options": ["100", "80", "20", "undefined"],
+    "correctIndex": 1,
+    "explanation": "The variable `price` starts at 100. The expression `price - discount` evaluates to 80, and that result is assigned back to `price`. The original value of 100 is replaced. This pattern of reading a variable, computing a new value, and storing it back is fundamental to programming."
+  },
+  {
+    "type": "PREDICT",
+    "question": "What happens when this code runs?",
+    "code": "const API_KEY = \"abc123\";\nAPI_KEY = \"xyz789\";\nconsole.log(API_KEY);",
+    "options": [
+      "Logs \"abc123\"",
+      "Logs \"xyz789\"",
+      "Throws TypeError: Assignment to constant variable",
+      "Logs undefined"
+    ],
+    "correctIndex": 2,
+    "explanation": "Variables declared with `const` cannot be reassigned. The second line attempts to assign a new value to `API_KEY`, which throws a TypeError. The program crashes at that line and never reaches the console.log. This is exactly the protection `const` is designed to provide — it prevents accidental reassignment of values that should stay fixed."
+  },
+  {
+    "type": "IDENTIFY",
+    "question": "Which variable declaration will cause an error?",
+    "code": "let firstName = \"Jordan\";\nconst 2ndPlace = \"Silver\";\nlet _internal = true;\nlet $price = 49.99;",
+    "options": [
+      "let firstName — camelCase is not allowed",
+      "const 2ndPlace — variable names cannot start with a number",
+      "let _internal — underscores are reserved for system use",
+      "let $price — dollar signs are not valid in variable names"
+    ],
+    "correctIndex": 1,
+    "explanation": "Variable names must start with a letter, underscore, or dollar sign. `2ndPlace` starts with a number, which is invalid. The other declarations are all valid: camelCase (`firstName`) is the standard convention, underscores (`_internal`) are often used for private variables, and dollar signs (`$price`) are common in jQuery-style code and some frameworks."
+  },
+  {
+    "type": "CLASSIFY",
+    "question": "Classify each variable declaration as using the correct keyword (const or let) based on whether the value should change.",
+    "items": [
+      { "label": "API endpoint URL that never changes", "category": "const" },
+      { "label": "Counter that increments in a loop", "category": "let" },
+      { "label": "Currently logged-in user (can be null)", "category": "let" },
+      { "label": "Maximum retry attempts (fixed at 3)", "category": "const" },
+      { "label": "Form input value as user types", "category": "let" },
+      { "label": "Tax rate defined by business rules", "category": "const" }
+    ],
+    "categories": ["const", "let"],
+    "explanation": "Use `const` for values that are set once and never reassigned: configuration, constants, fixed rules. Use `let` for values that change during execution: counters, user state, accumulated values, form inputs. The question isn't whether the data inside might change (objects can be mutated even with const), but whether you'll reassign the variable itself to point to a completely different value."
+  },
+  {
+    "type": "FIX",
+    "question": "This code should track a user's score, but it has a bug. Which fix makes it work correctly?",
+    "buggyCode": "const score = 0;\nscore = score + 10;\nscore = score + 25;\nconsole.log(score);",
+    "options": [
+      "Change `const score = 0` to `let score = 0`",
+      "Change `score + 10` to `score += 10`",
+      "Add `var score` at the beginning",
+      "Change `console.log(score)` to `console.log(const score)`"
+    ],
+    "correctIndex": 0,
+    "explanation": "The bug is using `const` for a variable that needs to be reassigned. Score starts at 0 and needs to be updated to 10, then 35. Changing to `let score = 0` allows reassignment. Option B (`+=`) is just shorthand for the same operation and doesn't fix the const issue. Adding `var` would create a second variable. Option D is invalid syntax."
+  },
+  {
+    "type": "PREDICT",
+    "question": "What does this code log?",
+    "code": "let message;\nconsole.log(message);",
+    "options": ["null", "undefined", "\"\"", "Throws ReferenceError"],
+    "correctIndex": 1,
+    "explanation": "When you declare a variable with `let` but don't assign a value, it automatically holds `undefined`. This is JavaScript's way of representing \"declared but not yet assigned.\" It's different from `null` (which you explicitly assign to mean \"intentionally empty\") and different from an undeclared variable (which throws ReferenceError when accessed)."
+  }
+]

@@ -1,0 +1,73 @@
+[
+  {
+    "type": "PREDICT",
+    "question": "What does this expression evaluate to?",
+    "code": "\"3\" + 4 + 5",
+    "options": ["12", "\"345\"", "\"12\"", "NaN"],
+    "correctIndex": 1,
+    "explanation": "JavaScript evaluates left to right. First, `\"3\" + 4` — since one operand is a string, the `+` operator does string concatenation, producing `\"34\"`. Then `\"34\" + 5` concatenates again, producing `\"345\"`. This is a common gotcha: once a string enters a `+` chain, everything after becomes string concatenation."
+  },
+  {
+    "type": "PREDICT",
+    "question": "What does this code log?",
+    "code": "const result = \"10\" - 5;\nconsole.log(result, typeof result);",
+    "options": [
+      "\"105\" string",
+      "5 number",
+      "NaN number",
+      "\"5\" string"
+    ],
+    "correctIndex": 1,
+    "explanation": "Unlike `+`, the subtraction operator `-` only does math. It converts `\"10\"` to the number `10`, then subtracts `5`, resulting in `5`. The type is `number`. This asymmetry between `+` and other math operators is one of JavaScript's quirks."
+  },
+  {
+    "type": "CLASSIFY",
+    "question": "Classify each value as truthy or falsy in JavaScript.",
+    "items": [
+      { "label": "0", "category": "Falsy" },
+      { "label": "\"0\"", "category": "Truthy" },
+      { "label": "[]", "category": "Truthy" },
+      { "label": "null", "category": "Falsy" },
+      { "label": "\"false\"", "category": "Truthy" },
+      { "label": "undefined", "category": "Falsy" },
+      { "label": "{}", "category": "Truthy" },
+      { "label": "\"\"", "category": "Falsy" }
+    ],
+    "categories": ["Truthy", "Falsy"],
+    "explanation": "The complete falsy list is: `false`, `0`, `-0`, `\"\"` (empty string), `null`, `undefined`, and `NaN`. Everything else is truthy. This means `\"0\"` (string containing zero), `\"false\"` (string containing the word false), `[]` (empty array), and `{}` (empty object) are all truthy. These non-obvious truthy values are a common source of bugs."
+  },
+  {
+    "type": "IDENTIFY",
+    "question": "A user reports that when they type 'none' in the discount field, the final price shows 'NaN%'. What's the bug?",
+    "code": "const discountInput = document.querySelector('#discount').value;\nconst price = 100;\nconst discountAmount = price * (discountInput / 100);\nconst finalPrice = (price - discountAmount) + '%';\nconsole.log(finalPrice);",
+    "options": [
+      "The division happens before the multiplication, causing NaN",
+      "Non-numeric text like 'none' converts to NaN, which propagates through the calculation",
+      "The order of operations is wrong",
+      "You need to use parseInt on the price variable"
+    ],
+    "correctIndex": 1,
+    "explanation": "When the input contains non-numeric text, `Number('none')` produces `NaN` (Not a Number). Any math operation with `NaN` produces `NaN`, so `discountAmount` becomes `NaN`, and the final output is `\"NaN%\"`. The fix is explicit conversion with validation: `const discount = Number(discountInput) || 0;` which uses 0 if conversion fails."
+  },
+  {
+    "type": "PREDICT",
+    "question": "What does `typeof null` return?",
+    "code": "console.log(typeof null);",
+    "options": ["\"null\"", "\"undefined\"", "\"object\"", "null"],
+    "correctIndex": 2,
+    "explanation": "`typeof null` returns `\"object\"` — this is a well-known bug from JavaScript's original implementation in 1995. It was never fixed because doing so would break too much existing code. To check specifically for null, use `value === null` instead of `typeof`."
+  },
+  {
+    "type": "FIX",
+    "question": "This code should check if a user has items in their cart, but it's not working correctly. The cart is empty but the message still shows. Which fix is correct?",
+    "buggyCode": "const cartItems = [];\nif (cartItems) {\n  console.log(\"You have items in your cart!\");\n}",
+    "options": [
+      "Change `if (cartItems)` to `if (cartItems.length > 0)`",
+      "Change `if (cartItems)` to `if (cartItems !== [])`",
+      "Change `const cartItems = []` to `const cartItems = null`",
+      "Change `if (cartItems)` to `if (Boolean(cartItems))`"
+    ],
+    "correctIndex": 0,
+    "explanation": "Empty arrays are truthy in JavaScript, so `if (cartItems)` always passes. The fix is to check the array's length: `if (cartItems.length > 0)`. Option B doesn't work because `[] !== []` is always true (arrays are compared by reference, not content). Option C changes the data structure. Option D has the same problem as the original — `Boolean([])` is still true."
+  }
+]

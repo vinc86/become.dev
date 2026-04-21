@@ -1,0 +1,220 @@
+---
+lessonId: "02"
+title: "Data Types"
+sectionCount: 4
+---
+
+## The Seven Primitive Types
+
+JavaScript has seven primitive data types, and understanding them prevents an entire category of bugs. A primitive is a value that isn't an object. JavaScript temporarily wraps primitives so you can call methods like `"hello".toUpperCase()`, but the primitive itself is not an object.
+
+**String** — text data, enclosed in quotes:
+
+```js
+const greeting = "Hello, world";
+const name = 'Jordan';
+const template = `Welcome, ${name}!`; // Template literal with interpolation
+```
+
+Single quotes and double quotes work identically. Backticks (template literals) let you embed expressions and span multiple lines.
+
+**Number** — both integers and decimals:
+
+```js
+const price = 29.99;
+const quantity = 3;
+const negative = -50;
+const scientific = 2.5e6; // 2,500,000
+```
+
+JavaScript doesn't distinguish between integers and floats — they're all Numbers. This occasionally causes precision issues: `0.1 + 0.2` equals `0.30000000000000004`, not `0.3`. [→ P01: Advanced JavaScript] covers why and how to handle it.
+
+**Boolean** — `true` or `false`:
+
+```js
+const isLoggedIn = true;
+const hasPermission = false;
+const email = "user@example.com";
+const isValid = email.includes("@"); // Expression that evaluates to boolean
+```
+
+**undefined** — a variable that exists but has no value:
+
+```js
+let userPreference;
+console.log(userPreference); // undefined
+```
+
+**null** — an intentional absence of value:
+
+```js
+let selectedItem = null; // Explicitly "nothing selected"
+```
+
+**Symbol** — unique identifiers (rarely used in beginner code):
+
+```js
+const id = Symbol("userId");
+```
+
+**BigInt** — integers larger than Number can safely represent:
+
+```js
+const huge = 9007199254740993n; // Note the 'n' suffix
+```
+
+> **Simply Put:** Primitives are the basic building blocks: strings for text, numbers for math, booleans for yes/no decisions, undefined for "not yet assigned," and null for "intentionally empty."
+
+## typeof and Type Checking
+
+The `typeof` operator tells you what type a value is. You'll use it constantly when debugging.
+
+```js
+typeof "hello"     // "string"
+typeof 42          // "number"
+typeof true        // "boolean"
+typeof undefined   // "undefined"
+typeof null        // "object" — this is a famous bug, not a feature
+typeof Symbol()    // "symbol"
+typeof 10n         // "bigint"
+typeof {}          // "object"
+typeof []          // "object" — arrays are objects
+typeof function(){} // "function"
+```
+
+The `typeof null === "object"` result is a historical mistake from JavaScript's first implementation in 1995. It can't be fixed without breaking existing code. When checking for null specifically, use strict equality:
+
+```js
+// Wrong way to check for null
+if (typeof value === "null") { } // This never works
+
+// Correct way
+if (value === null) { }
+```
+
+For arrays, `typeof` returns `"object"` because arrays are technically objects. Use `Array.isArray()` to check specifically for arrays:
+
+```js
+const items = [1, 2, 3];
+typeof items;          // "object" — not helpful
+Array.isArray(items);  // true — this is what you want
+```
+
+## Type Coercion: Implicit Conversions
+
+JavaScript automatically converts values between types when it thinks you need it to. This is called type coercion, and it's the source of many bugs and memes about the language.
+
+**String coercion** — when you use `+` with a string, other values become strings:
+
+```js
+"The answer is " + 42        // "The answer is 42"
+"3" + 4                      // "34" (string, not 7)
+"Items: " + true             // "Items: true"
+```
+
+**Number coercion** — math operators (except `+`) convert to numbers:
+
+```js
+"6" - 2                      // 4 (number)
+"6" * "2"                    // 12 (number)
+"10" / 2                     // 5 (number)
+"hello" - 2                  // NaN (Not a Number)
+```
+
+**NaN has a unique quirk:** it's the only JavaScript value that isn't equal to itself.
+
+```js
+console.log(NaN === NaN);  // false — this is intentional, not a bug
+console.log(Number.isNaN(NaN));  // true — use this to check for NaN
+```
+
+This means you can't use `value === NaN` to check if something is NaN. Use `Number.isNaN(value)` instead.
+
+**Boolean coercion** — in conditions, values become truthy or falsy:
+
+```js
+if ("hello") { }             // Runs — non-empty strings are truthy
+if (0) { }                   // Doesn't run — 0 is falsy
+if (null) { }                // Doesn't run — null is falsy
+if ([]) { }                  // Runs — empty arrays are truthy (!)
+```
+
+The falsy values are: `false`, `0`, `-0`, `""` (empty string), `null`, `undefined`, and `NaN`. Everything else is truthy, including empty arrays and empty objects.
+
+```js
+// Common bug: checking if an array has items
+const items = [];
+if (items) {
+  console.log("Has items"); // This runs! Empty array is truthy
+}
+
+// Correct check
+if (items.length > 0) {
+  console.log("Has items"); // Doesn't run
+}
+```
+
+> **Simply Put:** JavaScript automatically converts types when it thinks you need it. `+` with a string makes strings. Other math operators make numbers. In conditions, values are treated as truthy or falsy.
+
+## Explicit Type Conversion
+
+Rather than relying on JavaScript's automatic coercion, you can convert types explicitly. This makes your code clearer and prevents surprises.
+
+**To String:**
+
+```js
+String(42)           // "42"
+String(true)         // "true"
+String(null)         // "null"
+(42).toString()      // "42"
+```
+
+**To Number:**
+
+```js
+Number("42")         // 42
+Number("42.5")       // 42.5
+Number("hello")      // NaN
+Number(true)         // 1
+Number(false)        // 0
+Number(null)         // 0
+Number(undefined)    // NaN
+parseInt("42px")     // 42 — stops at first non-numeric character
+parseFloat("3.14")   // 3.14
+```
+
+Note the difference between `null` and `undefined`: `null` represents "intentional nothing" and converts to `0`. `undefined` represents "not yet defined" — there's no sensible number for that, so it's `NaN`.
+
+**To Boolean:**
+
+```js
+Boolean(1)           // true
+Boolean(0)           // false
+Boolean("hello")     // true
+Boolean("")          // false
+Boolean(null)        // false
+!!value              // Double negation — common shorthand for Boolean()
+```
+
+The double negation trick (`!!value`) is a concise way to convert any value to its boolean equivalent. The first `!` converts to boolean and inverts, the second `!` inverts back.
+
+```js
+// These are equivalent
+const hasUser = Boolean(user);
+const hasUser = !!user;
+```
+
+When taking user input (which is always a string from form fields), explicit conversion prevents bugs:
+
+```js
+// User types "5" in an input field
+const inputValue = "5";
+
+// Bug: string concatenation instead of addition
+const wrong = inputValue + 10;  // "510"
+
+// Correct: explicit conversion
+const correct = Number(inputValue) + 10;  // 15
+```
+
+> **Simply Put:** Use `String()`, `Number()`, and `Boolean()` to convert types explicitly. It's clearer than relying on automatic coercion and prevents common bugs.
