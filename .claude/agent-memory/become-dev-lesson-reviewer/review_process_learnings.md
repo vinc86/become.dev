@@ -4,16 +4,15 @@ description: Lessons learned from 8-pass review of F03 JavaScript Foundations - 
 type: feedback
 ---
 
-## Multi-Pass Review Strategy
+## Two-Cycle Review Strategy
 
-**Why:** Single passes miss issues. The F03 review required 8 passes - critical factual errors weren't caught until pass 4, seniority alignment issues needed passes 3-6 to fully identify and verify fixes.
+**Why:** The agent now enforces a maximum of 2 review cycles per lesson. After cycle 2, remaining issues go into a `debt.md` file and the lesson ships. This prevents review loops while tracking known issues for future revision.
 
 **How to apply:**
-1. First pass: Structure and flow
-2. Second pass: Technical accuracy of code examples
-3. Third pass: Seniority alignment (concepts used before taught)
-4. Fourth pass: Edge cases and subtle errors
-5. Final pass: Verify all fixes are actually in place
+1. **Cycle 1 — Full Review**: Complete review across all 9 dimensions. Produce full output format with scores and approval snapshot.
+2. **Cycle 2 — Delta Review**: Focus only on fixes from Cycle 1 and any new issues introduced. Do not re-flag approved items from the snapshot.
+
+**Historical note:** F03 was reviewed before the 2-cycle limit was established. Future modules follow the streamlined process.
 
 ## Always Verify JavaScript Behavior
 
