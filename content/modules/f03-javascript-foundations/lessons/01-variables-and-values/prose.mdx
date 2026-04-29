@@ -153,11 +153,11 @@ One subtle point: `const` prevents reassignment, but it doesn't make objects imm
 ```js
 const user = { name: "Alex", role: "admin" };
 user.role = "editor";     // This works — we're modifying the object
-user = { name: "Jordan" }; // This fails — we're trying to reassign
+user = { name: "Jordan" }; // TypeError: Assignment to constant variable
 
 const scores = [85, 92, 78];
 scores.push(95);          // This works — we're modifying the array
-scores = [100, 100, 100]; // This fails — we're trying to reassign
+scores = [100, 100, 100]; // TypeError: Assignment to constant variable
 ```
 
 Immutability patterns are covered in a later module — for now, just know that `const` prevents reassignment but doesn't freeze objects.

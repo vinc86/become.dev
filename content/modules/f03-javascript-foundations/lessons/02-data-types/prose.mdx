@@ -124,11 +124,20 @@ JavaScript automatically converts values between types when it thinks you need i
 **NaN has a unique quirk:** it's the only JavaScript value that isn't equal to itself.
 
 ```js
-console.log(NaN === NaN);  // false — this is intentional, not a bug
-console.log(Number.isNaN(NaN));  // true — use this to check for NaN
+console.log(5 === 5);      // true — numbers equal themselves
+console.log("a" === "a");  // true — strings equal themselves
+console.log(NaN === NaN);  // false — NaN never equals anything, including itself
 ```
 
-This means you can't use `value === NaN` to check if something is NaN. Use `Number.isNaN(value)` instead.
+This seems strange, but it's intentional. NaN represents "the result of an impossible math operation" — and two impossible results aren't necessarily the same thing. To check if a value is NaN, use `Number.isNaN()`:
+
+```js
+const result = "hello" - 5;  // NaN
+console.log(result === NaN);       // false — doesn't work!
+console.log(Number.isNaN(result)); // true — use this instead
+```
+
+> **Simply Put:** Never use `=== NaN` to check for NaN — it always returns false. Use `Number.isNaN(value)` instead.
 
 **Boolean coercion** — in conditions, values become truthy or falsy:
 

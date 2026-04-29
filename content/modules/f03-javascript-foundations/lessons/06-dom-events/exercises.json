@@ -63,7 +63,7 @@
   {
     "type": "FIX",
     "question": "This code attaches click handlers to todo items, but dynamically added items don't respond to clicks. A senior developer suggests using event delegation instead. What's wrong with the current approach?",
-    "buggyCode": "document.querySelectorAll('.todo-item').forEach(item => {\n  item.addEventListener('click', function() {\n    this.classList.toggle('completed');\n  });\n});",
+    "buggyCode": "document.querySelectorAll('.todo-item').forEach(item => {\n  item.addEventListener('click', function(event) {\n    event.target.classList.toggle('completed');\n  });\n});",
     "options": [
       "Change 'click' to 'onclick'",
       "This isn't event delegation — attach a single listener to the parent container instead",

@@ -103,10 +103,11 @@ document.addEventListener('click', function(event) {
 **event.currentTarget** is the element the listener is attached to. They're often the same, but not always:
 
 ```js
-// Listener on the parent
+// HTML: <ul><li>Item 1</li><li>Item 2</li></ul>
+// Listener on the parent ul
 document.querySelector('ul').addEventListener('click', function(event) {
-  console.log(event.target);        // The clicked li
-  console.log(event.currentTarget); // The ul
+  console.log(event.target);        // The clicked li element
+  console.log(event.currentTarget); // The ul (where the listener is attached)
 });
 ```
 

@@ -198,9 +198,12 @@ const doubled = numbers.map(function(n) {
 const doubled = numbers.map(n => n * 2);
 ```
 
-Arrow functions have one important difference from regular functions: they don't have their own `this` keyword binding. This affects how they behave when used as object methods.
+Arrow functions have one important difference from regular functions: they handle object methods differently. For now, remember this practical rule:
 
-> **Simply Put:** Use regular functions for object methods. Use arrow functions for callbacks and short transformations. We'll explore why in [→ F04: JavaScript Core Depth].
+- Use **arrow functions** for callbacks and short transformations (like in `.map()` or event handlers)
+- Use **regular functions** when defining methods on objects
+
+> **Simply Put:** Arrow functions are great for callbacks. Regular functions are better for object methods. We'll explore why in [→ F04: JavaScript Core Depth].
 
 ## Functions as Values
 

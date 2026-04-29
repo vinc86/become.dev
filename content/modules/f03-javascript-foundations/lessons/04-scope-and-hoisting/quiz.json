@@ -75,15 +75,15 @@
   },
   {
     "type": "SCENARIO",
-    "setup": "You're fixing a bug in an event handler:\n\n```js\nfor (var i = 0; i < buttons.length; i++) {\n  buttons[i].addEventListener('click', function() {\n    console.log('Button ' + i + ' clicked');\n  });\n}\n```\n\nNo matter which button is clicked, it always logs \"Button 3 clicked\" (assuming 3 buttons).",
-    "question": "What's the best fix for this bug?",
+    "setup": "A developer writes this code:\n\n```js\nfor (var i = 0; i < 3; i++) {\n  // loop body\n}\nconsole.log(i);\n```\n\nThey expected an error because `i` should be limited to the loop, but it logs `3`.",
+    "question": "Why does this happen, and how do you fix it?",
     "options": [
-      "Use setTimeout to delay the event binding",
-      "Change var i to let i",
-      "Move the addEventListener outside the loop",
-      "Use i.toString() instead of i"
+      "Add 'use strict' at the top of the file",
+      "Change var to let — let is block-scoped so i won't be accessible outside the loop",
+      "Change var to const to prevent reassignment",
+      "Wrap the loop in a try/catch block"
     ],
     "correctIndex": 1,
-    "explanation": "Option B is the fix. With `var`, there's one shared `i` variable. By the time any button is clicked, the loop has finished and `i` is 3. With `let`, each iteration creates a new `i` scoped to that block. Each click handler closes over its own `i`, preserving the correct value. This is a classic example of why `let` is preferred over `var` in loops."
+    "explanation": "Option B is correct. `var` is function-scoped, not block-scoped, so `i` is accessible throughout the entire function (or globally if not in a function). Changing to `let` makes `i` block-scoped — it only exists inside the for loop's block and becomes inaccessible after the loop ends."
   }
 ]

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(node -e 'JSON.parse\\(require\\('\\\\''fs'\\\\''\\).readFileSync\\('\\\\''__TRACKED_VAR__'\\\\''\\)\\)')",
       "Bash(python3 -c 'import json; json.load\\(open\\('\\\\''__TRACKED_VAR__'\\\\''\\)\\)')",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(git *)"
     ]
   }
 }
