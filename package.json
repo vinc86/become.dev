@@ -2,11 +2,13 @@
   "name": "become-dev",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:tracks": "npx tsx scripts/generate-tracks.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
