@@ -1,19 +1,19 @@
 import { Exercise } from "./exercise";
 import { Quiz } from "./quiz";
 
-type Track = "foundations" | "professional" | "advanced";
+export type Track = "foundations" | "professional" | "advanced";
 
-type Lesson = {
+export type Lesson = {
   prose: string;
   exercises: Exercise[];
   quiz: Quiz[];
 };
 
-type Module = {
+export type Module = {
   lessons: Lesson[];
 };
 
-type ModuleMeta = {
+export type ModuleMeta = {
   id: string;
   title: string;
   track: Track;
@@ -25,7 +25,7 @@ type ModuleMeta = {
   estimatedHours: number;
 };
 
-type LessonMeta = {
+export type LessonMeta = {
   id: string;
   title: string;
   sectionCount: number;
