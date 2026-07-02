@@ -16,15 +16,9 @@ become.dev is built for engineers who want to truly understand how things work, 
 - **Professional (P01–P09)**: For those wanting to go from junior to mid engineer
 - **Advanced (A01–A06)**: For those wanting to understand internals and become senior/staff
 
-**Full module catalog:**
-
-Foundations: F01 How the Web Works · F02 HTML & CSS Fundamentals · F03 JavaScript Foundations ✓ · F04 JavaScript Core Depth · F05 Advanced Arrays & Objects · F06 TypeScript Foundations · F07 Git & GitHub Essentials
-
-Professional: P01 Advanced JavaScript · P02 Advanced TypeScript · P03 React Foundations · P04 React Architecture · P05 CSS Architecture · P06 Testing Strategy · P07 Architectural Patterns · P08 GitHub Actions & CI/CD · P09 AI-Augmented Engineering
-
-Advanced: A01 JS Engine Internals · A02 Browser Rendering Pipeline · A03 Frontend Performance Engineering · A04 Design Systems Engineering · A05 Build Tooling & Modules · A06 Engineering Leadership
-
-✓ = content done (F03 only — the actual state is whatever exists under `content/modules/`; check there before trusting any status table). `docs/PLAN.md` (v1.4) is the source of truth for the catalog and all product rules — but note its §3/§5.6 status for F06 is wrong, F06 was never written.
+**Module catalog:** do not rely on a hardcoded list — it goes stale. At the start of every task:
+- Read `content/tracks.json` (generated) and `content/modules/` for the modules that exist right now. The filesystem is the truth for content status.
+- Read `docs/PLAN.md` §3 for the planned catalog (F01–F07, P01–P09, A01–A06) and module topics. PLAN v1.4 is the source of truth for the catalog and all product rules, but its status tables can lag behind the filesystem (e.g. it wrongly lists F06 as done).
 
 **Free/paid boundary (Option B, decided v1.3):** the entire Foundations track is free. Professional and Advanced tracks are paid, with entitlements at track level. **Lesson 1 of every paid module is a free preview** (`freePreview: true` in its prose.mdx frontmatter): it is the sales showcase for the module, playable without purchase. Write it to demonstrate the depth of the paid material and to stand alone.
 
