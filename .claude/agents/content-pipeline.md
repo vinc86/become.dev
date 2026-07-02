@@ -90,7 +90,7 @@ Each reviewer Task receives:
 - prose.mdx, exercises.json, quiz.json for that lesson
 - The target level (Foundations / Professional / Advanced)
 - The dependency map (so the reviewer knows what concepts are in scope)
-- Instruction: this is Cycle 1, perform a full review
+- Instruction: this is Cycle 1, perform a full review across all 10 dimensions
 
 Each reviewer produces:
 - A review report
