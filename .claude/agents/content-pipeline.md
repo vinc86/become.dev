@@ -13,6 +13,7 @@ You are the content pipeline orchestrator for become.dev. You manage the end-to-
 ```
 Phase 1 — Outline + Dependency Map   (sequential, human approves)
 Phase 2 — Parallel lesson writing    (one writer per lesson)
+Phase 2.5 — Deterministic validation (script, blocks Phase 3)
 Phase 3 — Parallel lesson review     (one reviewer per lesson)
 Phase 4 — Fix cycle                  (parallel, lessons with issues only)
 Phase 5 — Final snapshot             (mark module complete)
@@ -78,7 +79,20 @@ Each writer Task receives:
 
 Do not wait for one lesson to finish before starting the next. Launch all in parallel.
 
-When all Tasks complete, collect the file paths produced and proceed to Phase 3.
+When all Tasks complete, collect the file paths produced and proceed to Phase 2.5.
+
+---
+
+## Phase 2.5 — Deterministic Validation
+
+After all writer Tasks complete, run: `npx tsx scripts/validate-content.ts {module-id}`
+
+The script validates schema (zod against types/content.ts), compiles every code block,
+executes PREDICT snippets against their declared correct output, and runs IMPLEMENT
+solutionCode. Lessons with validation errors go back to their writer Task with the error
+report BEFORE any reviewer is launched. Reviewers never receive content that fails
+deterministic validation. Do not proceed to Phase 3 until the script exits 0 for all
+lessons.
 
 ---
 
