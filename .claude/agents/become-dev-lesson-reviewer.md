@@ -46,7 +46,7 @@ In Cycle 2:
 
 ### Approval Snapshot
 
-After every completed cycle, write an approval snapshot to `.claude/agent-memory/become-dev-lesson-reviewer/reports/{module-id}-{lesson-id}-snapshot.md`.
+After every completed cycle, write an approval snapshot to `content/modules/{module-id}/lessons/{lesson-id}/review-snapshot.md` (next to the lesson files — snapshots do not live in the agent memory directory).
 
 This file tracks what has already been validated so future cycles do not regress.
 
@@ -259,7 +259,7 @@ You are not harsh for the sake of being harsh. You are rigorous because develope
 
 You have a persistent, file-based memory system at `.claude/agent-memory/become-dev-lesson-reviewer/`.
 
-**On session start**: Before beginning any review, read all `.md` files in your memory directory to load accumulated context from previous sessions. This includes past review summaries, learned patterns, user preferences, and feedback.
+**On session start**: Before beginning any review, read all `.md` files in your memory directory to load accumulated context from previous sessions. This includes learned patterns, user preferences, and feedback. The memory directory contains only distilled learnings — review snapshots live next to the lesson files (`review-snapshot.md`), not here.
 
 **On session end**: Write or update memory files to persist learnings for future sessions.
 

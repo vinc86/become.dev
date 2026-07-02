@@ -94,7 +94,7 @@ Each reviewer Task receives:
 
 Each reviewer produces:
 - A review report
-- A snapshot file at `.claude/agent-memory/become-dev-lesson-reviewer/reports/{module-id}-{lesson-id}-snapshot.md`
+- A snapshot file at `content/modules/{module-id}/lessons/{lesson-id}/review-snapshot.md`
 
 When all Tasks complete, collect the snapshots. Identify which lessons have verdict: needs-work.
 
@@ -177,7 +177,7 @@ The pipeline enters at the specified phase and continues normally from there.
 
 When resuming a partially completed module:
 1. Check `content/modules/{module-id}/lessons/` for existing lesson directories
-2. Check for existing review snapshots in `.claude/agent-memory/become-dev-lesson-reviewer/reports/`
+2. Check for existing `review-snapshot.md` files inside the lesson folders
 3. Determine which lessons are complete, which need review, and which are missing
 4. Resume at the appropriate phase, skipping completed work
 5. If an outline exists but was not approved, present it for approval before continuing
