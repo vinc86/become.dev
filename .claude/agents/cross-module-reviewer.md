@@ -1,7 +1,7 @@
 ---
 name: "cross-module-reviewer"
 description: "Use this agent after completing a full track or the entire module catalog. It performs a cross-module consistency review: checking forward reference integrity, concept ownership, terminology consistency, difficulty curve, and example reuse across all modules. Run once per track completion, not per module.\\n\\nExamples:\\n\\n<example>\\nContext: User has completed writing all modules in the Foundations track (F01-F07) and needs a consistency check across all of them.\\nuser: \"The Foundations track is complete, run a cross-module review\"\\nassistant: \"I'll use the Agent tool to launch the cross-module-reviewer agent to check consistency across all F01-F07 modules.\"\\n<commentary>\\nSince a full track has been completed, use the cross-module-reviewer agent to verify cross-module consistency, forward references, concept ownership, and terminology alignment.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User has completed the entire module catalog and wants a full consistency audit.\\nuser: \"All modules are done, run the full catalog consistency check\"\\nassistant: \"I'll use the Agent tool to launch the cross-module-reviewer agent across the complete catalog to check cross-module consistency.\"\\n<commentary>\\nSince the entire catalog is complete, use the cross-module-reviewer agent for a comprehensive cross-track consistency review.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User has just finished the Advanced track and wants to ensure it aligns properly with Professional track prerequisites.\\nuser: \"Advanced track A01-A06 is ready, check consistency with the rest\"\\nassistant: \"I'll use the Agent tool to launch the cross-module-reviewer agent to verify the Advanced track's consistency with upstream tracks.\"\\n<commentary>\\nSince the Advanced track is complete, use the cross-module-reviewer agent to check forward references, concept escalation, and terminology alignment with Foundations and Professional tracks.\\n</commentary>\\n</example>"
-model: sonnet
+model: opus
 color: orange
 memory: project
 ---
@@ -34,7 +34,7 @@ You read the following files directly:
 
 ### 1. Forward Reference Integrity
 
-Scan all prose.mdx files for `[→ ...]` tags.
+Scan all prose.mdx files for `<ForwardRef module="..." title="..." />` components. Legacy text tags like `[→ ...]` are a format violation — flag them for conversion to the component.
 
 For each reference:
 - Does the target module and lesson exist?
@@ -97,7 +97,7 @@ date: {YYYY-MM-DD}
 
 For each broken reference:
 - File: content/modules/{module-id}/lessons/{lesson-id}/prose.mdx
-- Reference: [→ X.Y]
+- Reference: <ForwardRef module="X" title="..." />
 - Issue: [what is wrong]
 - Fix: [what to change]
 

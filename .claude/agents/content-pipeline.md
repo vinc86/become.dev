@@ -1,7 +1,7 @@
 ---
 name: "content-pipeline"
 description: "Use this agent to orchestrate the full content creation pipeline for a single become.dev module. It manages the structured workflow: outline approval, parallel lesson writing, parallel lesson review, and fix cycles. Use when you want to produce a complete module from scratch or resume a partially completed one.\\n\\nExamples:\\n\\n<example>\\nContext: The user wants to create all content for a new module from scratch.\\nuser: \"Write all lessons for F07 Git and GitHub Essentials\"\\nassistant: \"I'll use the Agent tool to launch the content-pipeline agent to orchestrate the full module creation workflow.\"\\n<commentary>\\nSince the user is requesting a complete module to be written, use the content-pipeline agent to manage the end-to-end workflow from outline through review cycles.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: The user has a partially completed module and wants to finish it.\\nuser: \"Resume the pipeline for P03 React Foundations, lessons 3 to 5 are missing\"\\nassistant: \"I'll use the Agent tool to launch the content-pipeline agent to pick up from where the module left off and complete the remaining lessons.\"\\n<commentary>\\nSince the user wants to continue work on an incomplete module, use the content-pipeline agent which can detect existing progress and skip already-completed lessons.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: The user wants to start a new advanced track module.\\nuser: \"Create the Browser Rendering Pipeline module A02\"\\nassistant: \"I'll use the Agent tool to launch the content-pipeline agent to orchestrate the creation of the A02 module.\"\\n<commentary>\\nSince this is a request to create a complete module, use the content-pipeline agent to handle outline approval, parallel writing, and review cycles.\\n</commentary>\\n</example>"
-model: sonnet
+model: opus
 color: green
 memory: project
 ---
@@ -186,12 +186,15 @@ When resuming a partially completed module:
 
 ## Content Standards Reference
 
-Remind all subagents of become.dev content standards:
+Remind all subagents of become.dev content standards (`docs/PLAN.md` v1.4 is the source of truth for all product rules):
 - Voice: Direct, technically precise, never condescending
 - Two levels per concept: main explanation + Simply Put block
-- Forward references use tag format: `[→ Module X · Topic]`
-- Exercise types: ORDER, PREDICT, IDENTIFY, CLASSIFY, FIX, IMPLEMENT
+- Forward references use the MDX component: `<ForwardRef module="F04" title="JavaScript Core Depth" />`
+- Exercise types: ORDER, PREDICT, IDENTIFY, CLASSIFY, FIX, IMPLEMENT — every exercise carries a `hints` array (1–2 entries)
+- Cookies are a reward-only currency; lesson unlocking is completion-based, never cookie-gated
+- Lesson 1 of every paid (Professional/Advanced) module is a free preview: `freePreview: true` in prose.mdx frontmatter, written as the module's showcase
 - Each lesson produces: prose.mdx, exercises.json, quiz.json
+- `content/tracks.json` is generated — no subagent may edit it
 
 **Update your agent memory** as you discover module patterns, common review issues, dependency conflicts, and workflow optimizations. This builds institutional knowledge for future pipeline runs.
 
