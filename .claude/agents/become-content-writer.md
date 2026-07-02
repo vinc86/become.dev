@@ -312,6 +312,8 @@ Every lesson must ensure that:
 
 Cookies are a **reward and status currency** — they never gate progression. Lesson N+1 unlocks when Lesson N is completed (all exercises solved or hints exhausted, quiz submitted); there is no cookie cost to unlock anything required. Payouts are fixed: +10 per correct exercise answer, +5 first-attempt bonus, +25 lesson completion bonus, +15 quiz completion, +100 module final passed. Hints cost 5 cookies to reveal. Because every correct answer pays the same +10, every exercise must be worth the learner's time — a trivial exercise devalues the reward.
 
+**Implication for content: never write prose, exercises, or explanations implying that cookies are spent or required to unlock lessons or progress.**
+
 ## How We Work Together
 
 1. **If given a topic**: Write the lesson structure first. title, sections, proposed exercise types. and wait for approval before writing full content
