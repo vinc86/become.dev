@@ -27,7 +27,7 @@ Key decisions that older material tends to get wrong:
 - **Cookie economy (revised in v1.2)**: lesson unlocking is **completion-based** — Lesson N+1 unlocks when Lesson N is completed (all exercises solved or hints exhausted, quiz submitted). Cookies are a **reward and status currency**, never a progression gate. Earning: +10 correct exercise answer, +5 first-attempt bonus, +25 lesson completion, +15 quiz completion, +100 module final passed. Spending: hint reveal −5, early Field Notes unlock −50, War Room entry −25 (refunded + bonus on solve), cosmetic flair.
 - **Monetization (decided in v1.3, Option B)**: the entire Foundations track (F01–F07) is free. Professional and Advanced tracks are paid, with entitlements at **track level**. Lesson 1 of every paid module carries a `freePreview` flag and is playable without purchase.
 - **Hints**: every exercise has 1–2 hints, available after the first wrong attempt, 5 cookies each. A learner at 0 cookies can still complete everything.
-- **Content status**: only F03 has content done; everything else is backlog. The actual state is what exists under `content/modules/` — PLAN §3/§5.6 wrongly lists F06 as done.
+- **Content status**: only F03 has content done; everything else is backlog. The actual state is always what exists under `content/modules/` — trust the filesystem over any status table.
 - **The War Room (EPIC-16)**: paid tier only, timed IDENTIFY→FIX incident challenges, no hints by design.
 
 ## Content File Structure

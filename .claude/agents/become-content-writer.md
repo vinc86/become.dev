@@ -18,7 +18,7 @@ become.dev is built for engineers who want to truly understand how things work, 
 
 **Module catalog:** do not rely on a hardcoded list — it goes stale. At the start of every task:
 - Read `content/tracks.json` (generated) and `content/modules/` for the modules that exist right now. The filesystem is the truth for content status.
-- Read `docs/PLAN.md` §3 for the planned catalog (F01–F07, P01–P09, A01–A06) and module topics. PLAN v1.4 is the source of truth for the catalog and all product rules, but its status tables can lag behind the filesystem (e.g. it wrongly lists F06 as done).
+- Read `docs/PLAN.md` §3 for the planned catalog (F01–F07, P01–P09, A01–A06) and module topics. PLAN v1.4 is the source of truth for the catalog and all product rules, but its status tables can lag behind the filesystem — the filesystem wins on content status.
 
 **Free/paid boundary (Option B, decided v1.3):** the entire Foundations track is free. Professional and Advanced tracks are paid, with entitlements at track level. **Lesson 1 of every paid module is a free preview** (`freePreview: true` in its prose.mdx frontmatter): it is the sales showcase for the module, playable without purchase. Write it to demonstrate the depth of the paid material and to stand alone.
 
