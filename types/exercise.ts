@@ -9,15 +9,17 @@ type IdentifyExercise = {
   code: string;
   options: string[];
   correctIndex: number;
+  hints?: string[];
   explanation: string;
 };
 
 type OrderExercise = {
   type: "ORDER";
   question: string;
-  code: string;
+  code?: string;
   items: string[];
   correctOrder: number[];
+  hints?: string[];
   explanation: string;
 };
 
@@ -28,6 +30,7 @@ type ImplementExercise = {
   starterCode: string;
   tests: Test[];
   solutionCode: string;
+  hints?: string[];
   explanation: string;
 };
 
@@ -37,6 +40,7 @@ type FixExercise = {
   buggyCode: string;
   options: string[];
   correctIndex: number;
+  hints?: string[];
   explanation: string;
 };
 
@@ -46,6 +50,7 @@ type PredictExercise = {
   code: string;
   options: string[];
   correctIndex: number;
+  hints?: string[];
   explanation: string;
 };
 
@@ -59,6 +64,7 @@ type ClassifyExercise = {
   question: string;
   items: ClassifyItem[];
   categories: string[];
+  hints?: string[];
   explanation: string;
 };
 export type Exercise =
