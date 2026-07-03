@@ -10,14 +10,27 @@
       "Error: missing argument"
     ],
     "correctIndex": 1,
+    "hints": [
+      "The function is called with no arguments. What takes over for the missing parameter?",
+      "Look at the = \"stranger\" in the parameter list. That is not an assignment inside the body."
+    ],
     "explanation": "Default parameters provide fallback values when an argument isn't passed. Since `greet()` is called without arguments, `name` uses its default value `\"stranger\"`, and the function returns `\"Hello, stranger\"`. Without the default, `name` would be `undefined` and the result would be `\"Hello, undefined\"`."
   },
   {
     "type": "PREDICT",
     "question": "What does this code output?",
     "code": "const multiply = (a, b) => a * b;\nconsole.log(multiply(3, 4));",
-    "options": ["7", "12", "\"3 * 4\"", "undefined"],
+    "options": [
+      "7",
+      "12",
+      "\"3 * 4\"",
+      "undefined"
+    ],
     "correctIndex": 1,
+    "hints": [
+      "An arrow function without curly braces does something automatic with its expression.",
+      "The expression a * b is evaluated and returned implicitly. Just compute 3 * 4."
+    ],
     "explanation": "This is an arrow function with a concise body. When an arrow function has no curly braces, the expression after `=>` is automatically returned. So `a * b` evaluates to `3 * 4 = 12` and that value is returned."
   },
   {
@@ -31,6 +44,10 @@
       "Arrow functions must have at least one parameter"
     ],
     "correctIndex": 1,
+    "hints": [
+      "Where is sayHi called, and where does it receive its value?",
+      "Only function declarations are hoisted with their body. This is a const holding an arrow function."
+    ],
     "explanation": "Function expressions (including arrow functions) are not hoisted. The variable `sayHi` exists due to hoisting, but it's `undefined` until the line where the function is assigned. Calling `sayHi()` before that line throws `TypeError: sayHi is not a function`. Function declarations, by contrast, are fully hoisted and can be called before they appear in the code."
   },
   {
@@ -46,7 +63,19 @@
       "The returned value is assigned to result",
       "console.log outputs 5"
     ],
-    "correctOrder": [0, 1, 2, 3, 4, 5, 6],
+    "correctOrder": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "hints": [
+      "Definition happens before any call. Then follow the call mechanics: arguments, body, return, assignment.",
+      "The value must be returned and assigned before console.log can print it."
+    ],
     "explanation": "When JavaScript runs, it first processes the function declaration and stores the function in memory. Then execution proceeds line by line: calling the function, binding arguments to parameters, evaluating the body, returning the result, assigning it to a variable, and finally logging it."
   },
   {
@@ -60,20 +89,49 @@
       "Add `console.log(finalPrice)` inside the function"
     ],
     "correctIndex": 0,
+    "hints": [
+      "The calculation is correct. What does the function hand back to the caller?",
+      "A function with no return statement implicitly returns undefined."
+    ],
     "explanation": "The function calculates `finalPrice` correctly but never returns it. A function without a `return` statement implicitly returns `undefined`. Adding `return finalPrice;` after the calculation will return the computed value to the caller."
   },
   {
     "type": "CLASSIFY",
     "question": "Classify each function syntax as an arrow function or traditional function.",
     "items": [
-      { "label": "const fn = (x) => x * 2", "category": "Arrow function" },
-      { "label": "function fn(x) { return x * 2; }", "category": "Traditional function" },
-      { "label": "const fn = function(x) { return x * 2; }", "category": "Traditional function" },
-      { "label": "const fn = x => x * 2", "category": "Arrow function" },
-      { "label": "const fn = () => { console.log('hi'); }", "category": "Arrow function" },
-      { "label": "const obj = { fn: function() {} }", "category": "Traditional function" }
+      {
+        "label": "const fn = (x) => x * 2",
+        "category": "Arrow function"
+      },
+      {
+        "label": "function fn(x) { return x * 2; }",
+        "category": "Traditional function"
+      },
+      {
+        "label": "const fn = function(x) { return x * 2; }",
+        "category": "Traditional function"
+      },
+      {
+        "label": "const fn = x => x * 2",
+        "category": "Arrow function"
+      },
+      {
+        "label": "const fn = () => { console.log('hi'); }",
+        "category": "Arrow function"
+      },
+      {
+        "label": "const obj = { fn: function() {} }",
+        "category": "Traditional function"
+      }
     ],
-    "categories": ["Arrow function", "Traditional function"],
+    "categories": [
+      "Arrow function",
+      "Traditional function"
+    ],
+    "hints": [
+      "One symbol distinguishes the two syntaxes.",
+      "The function keyword marks traditional functions, whether declared or assigned to a variable. The => arrow marks arrow functions."
+    ],
     "explanation": "Arrow functions use the `=>` syntax. Traditional functions use the `function` keyword. Both function declarations (`function name() {}`) and function expressions (`const name = function() {}`) are traditional functions. The key identifier is the `=>` arrow — if you see it, it's an arrow function."
   },
   {
@@ -82,12 +140,28 @@
     "setup": "Create a function called `calculateTip` that takes two parameters: `billAmount` (a number) and `tipPercentage` (a number from 0 to 100, defaulting to 20 if not provided). The function should return the tip amount rounded to 2 decimal places.\n\nNote: JavaScript displays `5.00` as `5` — trailing zeros aren't preserved.\n\nFor example:\n- calculateTip(50, 15) should return 7.5\n- calculateTip(82.50) should return 16.5 (using the 20% default)\n- calculateTip(100, 18) should return 18",
     "starterCode": "function calculateTip(billAmount, tipPercentage) {\n  // Your code here\n}",
     "tests": [
-      { "description": "Returns correct tip for 15% on $50", "expectation": "calculateTip(50, 15) returns 7.5" },
-      { "description": "Uses default 20% when no percentage given", "expectation": "calculateTip(82.50) returns 16.5" },
-      { "description": "Handles 18% correctly", "expectation": "calculateTip(100, 18) returns 18" },
-      { "description": "Rounds to 2 decimal places", "expectation": "calculateTip(45.67, 18) returns 8.22" }
+      {
+        "description": "Returns correct tip for 15% on $50",
+        "expectation": "calculateTip(50, 15) returns 7.5"
+      },
+      {
+        "description": "Uses default 20% when no percentage given",
+        "expectation": "calculateTip(82.50) returns 16.5"
+      },
+      {
+        "description": "Handles 18% correctly",
+        "expectation": "calculateTip(100, 18) returns 18"
+      },
+      {
+        "description": "Rounds to 2 decimal places",
+        "expectation": "calculateTip(45.67, 18) returns 8.22"
+      }
     ],
     "solutionCode": "function calculateTip(billAmount, tipPercentage = 20) {\n  const tip = billAmount * (tipPercentage / 100);\n  return Math.round(tip * 100) / 100;\n}",
+    "hints": [
+      "Convert the percentage to a decimal before multiplying.",
+      "For the default: give tipPercentage a default value in the parameter list. For rounding: Math.round(x * 100) / 100."
+    ],
     "explanation": "The solution uses a default parameter `tipPercentage = 20` so the function works when called with one argument. The tip is calculated by converting the percentage to a decimal (divide by 100) and multiplying by the bill. `Math.round(tip * 100) / 100` rounds to 2 decimal places: multiply by 100, round to nearest integer, divide by 100."
   }
 ]
