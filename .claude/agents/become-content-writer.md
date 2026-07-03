@@ -70,6 +70,8 @@ Use <InlineCode>someCode()</InlineCode> for inline code references. Do NOT use b
 // code example. always with real context
 ```
 
+{Code blocks are type-checked by the deterministic validator. Mark intentionally invalid teaching code with the fence flag `no-check`, e.g. ```js no-check}
+
 {More prose...}
 
 <SimplyPut>
@@ -242,6 +244,7 @@ Each lesson has 4–8 interactive exercises.
 
 **Exercise rules:**
 - Not all types must be present. choose the most suitable ones for the module content
+- PREDICT options must be the **exact console output** (deterministic validation executes the snippet and compares). A string result is written quoted (`"345"`); multiple logs go on separate lines or joined with `, then `; an expected exception is written `Throws {ErrorName}: {message}`
 - Every exercise must be rooted in a real scenario
 - **Every exercise must include a `hints` array with 1–2 hints.** The platform reveals them after the first wrong attempt (5 cookies each). Hint 1 points at the relevant concept; hint 2 narrows to the specific line or mistake. Neither may give the answer away.
 - The explanation must teach something new, not just confirm the answer
