@@ -26,12 +26,10 @@ import { z } from "zod";
 // ---------------------------------------------------------------------------
 // 1. Schemi zod — rispecchiano types/exercise.ts e types/quiz.ts (EPIC-11).
 //    Tenuti manualmente in sync: se cambi i tipi, cambia anche qui.
-//    `hints` è richiesto dal PLAN §4.4 (1–2 per esercizio) ma non è ancora nei
-//    tipi condivisi né nel contenuto esistente: la sua assenza è un warn, la
-//    sua presenza malformata un error.
+//    `hints` è richiesto dal PLAN §4.4: 1–2 per esercizio, obbligatori.
 // ---------------------------------------------------------------------------
 
-const Hints = z.array(z.string().min(10)).min(1).max(2).optional();
+const Hints = z.array(z.string().min(10)).min(1).max(2);
 
 const inRange = { message: "correctIndex fuori range rispetto a options" };
 
@@ -360,7 +358,7 @@ function norm(s: string): string {
 function outputMatches(output: string, declared: string): boolean {
   const candidates = [
     declared,
-    declared.replace(/^["'](.*)["']$/s, "$1"), // "345" → 345
+    declared.replace(/^["']([\s\S]*)["']$/, "$1"), // "345" → 345
     declared.replace(/,\s*then\s+/gi, "\n") // "undefined, then 5" → due righe
   ];
   return candidates.some((c) => norm(c) === norm(output));
@@ -452,9 +450,6 @@ async function validateLesson(dir: string, lessonId: string): Promise<Issue[]> {
             continue;
           }
           const data = parsed.data;
-          if (!data.hints) {
-            push("warn", `esercizio ${i} (${data.type}): hints mancanti (PLAN §4.4 richiede 1-2 hint per esercizio)`);
-          }
           if (data.type === "PREDICT" && !DOM_DEPENDENT.test(data.code)) {
             const declared = data.options[data.correctIndex].trim();
             const result = await runSnippet(data.code);
