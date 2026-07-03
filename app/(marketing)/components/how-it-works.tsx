@@ -18,9 +18,9 @@ const METHOD_FLOW: { title: string; description: string }[] = [
       "Quizzes and scenario questions unlock after practice. Score with full reasoning on every answer."
   },
   {
-    title: "Unlock the next lesson",
+    title: "Earn your cookies",
     description:
-      "Spend your cookies to progress. One focused session earns enough to move forward."
+      "Every exercise pays out. Spend them on hints, War Room entries, and early unlocks. Progress is never paywalled by cookies."
   }
 ];
 
