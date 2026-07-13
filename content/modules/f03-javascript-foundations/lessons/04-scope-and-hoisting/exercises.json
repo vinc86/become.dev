@@ -3,8 +3,17 @@
     "type": "PREDICT",
     "question": "What does this code log?",
     "code": "let count = 10;\n\nfunction updateCount() {\n  let count = 20;\n  count = count + 5;\n}\n\nupdateCount();\nconsole.log(count);",
-    "options": ["10", "20", "25", "undefined"],
+    "options": [
+      "10",
+      "20",
+      "25",
+      "undefined"
+    ],
     "correctIndex": 0,
+    "hints": [
+      "There are two variables named count here, not one. Where does each live?",
+      "The let inside the function creates a local variable that shadows the outer one. It disappears when the function ends."
+    ],
     "explanation": "The `count` inside `updateCount` is a separate local variable that shadows the outer `count`. Modifying the local `count` (to 25) doesn't affect the outer `count`. When the function ends, the local `count` is discarded. The outer `count` remains 10."
   },
   {
@@ -18,6 +27,10 @@
       "Throws SyntaxError"
     ],
     "correctIndex": 2,
+    "hints": [
+      "let variables are hoisted, but not the way var is. What zone do they sit in before their declaration line?",
+      "Accessing a let variable before its declaration line does not give undefined. It throws."
+    ],
     "explanation": "Variables declared with `let` are hoisted, but they exist in a \"temporal dead zone\" (TDZ) until their declaration is reached. Accessing a variable in the TDZ throws a ReferenceError. This is different from `var`, which would return `undefined`."
   },
   {
@@ -31,6 +44,10 @@
       "undefined, then undefined"
     ],
     "correctIndex": 1,
+    "hints": [
+      "var declarations are hoisted. What about their assignments?",
+      "Before the assignment line, x exists with the value undefined. After it, x is 5."
+    ],
     "explanation": "With `var`, the declaration is hoisted but the assignment is not. Before the assignment line, `x` exists but has the value `undefined`. After the assignment, `x` is 5. This is why `var` is confusing — getting `undefined` silently hides bugs."
   },
   {
@@ -44,6 +61,10 @@
       "Functions can't access variables from outer scopes"
     ],
     "correctIndex": 1,
+    "hints": [
+      "The inner let message shadows the outer one for the WHOLE function body, not just after its line.",
+      "console.log runs while the inner message is still in the temporal dead zone."
+    ],
     "explanation": "The `let message` declaration inside the function is hoisted, creating a new `message` variable that shadows the outer one throughout the entire function. However, it's in the Temporal Dead Zone until the declaration line. When `console.log(message)` runs, it tries to access this inner `message` while it's still in the TDZ, throwing a ReferenceError."
   },
   {
@@ -54,20 +75,51 @@
       "Each enclosing scope, moving outward",
       "The global scope (outermost)"
     ],
-    "correctOrder": [0, 1, 2],
+    "correctOrder": [
+      0,
+      1,
+      2
+    ],
+    "hints": [
+      "Start where the variable is referenced, then move outward.",
+      "Global scope is always the last stop, never the first."
+    ],
     "explanation": "JavaScript uses the scope chain: starting from where a variable is used, it checks each enclosing scope until it finds the variable or reaches global scope. If the variable isn't found anywhere, you get a ReferenceError."
   },
   {
     "type": "CLASSIFY",
     "question": "Classify each variable declaration based on whether it's hoisted and accessible before its declaration line.",
     "items": [
-      { "label": "function greet() { }", "category": "Hoisted and accessible" },
-      { "label": "var count = 5", "category": "Hoisted but undefined" },
-      { "label": "let name = \"Jo\"", "category": "Hoisted but in TDZ (error)" },
-      { "label": "const PI = 3.14", "category": "Hoisted but in TDZ (error)" },
-      { "label": "const fn = () => { }", "category": "Hoisted but in TDZ (error)" }
+      {
+        "label": "function greet() { }",
+        "category": "Hoisted and accessible"
+      },
+      {
+        "label": "var count = 5",
+        "category": "Hoisted but undefined"
+      },
+      {
+        "label": "let name = \"Jo\"",
+        "category": "Hoisted but in TDZ (error)"
+      },
+      {
+        "label": "const PI = 3.14",
+        "category": "Hoisted but in TDZ (error)"
+      },
+      {
+        "label": "const fn = () => { }",
+        "category": "Hoisted but in TDZ (error)"
+      }
     ],
-    "categories": ["Hoisted and accessible", "Hoisted but undefined", "Hoisted but in TDZ (error)"],
+    "categories": [
+      "Hoisted and accessible",
+      "Hoisted but undefined",
+      "Hoisted but in TDZ (error)"
+    ],
+    "hints": [
+      "Function declarations are the only fully-hoisted case. Then split the rest by keyword.",
+      "var gives undefined before its line. let and const throw. An arrow function assigned to const follows const rules."
+    ],
     "explanation": "Function declarations are fully hoisted — you can call them before they appear. `var` declarations are hoisted, but the value is `undefined` until the assignment. `let` and `const` are hoisted but exist in a Temporal Dead Zone (TDZ) — accessing them before declaration throws an error. Arrow functions assigned to `const` follow `const` rules."
   },
   {
@@ -81,6 +133,10 @@
       "Change `let count` to `const count`"
     ],
     "correctIndex": 1,
+    "hints": [
+      "The goal is to read the value outside WITHOUT exposing the variable itself.",
+      "Functions hand values to the outside through return. Capture it in a new variable at the call site."
+    ],
     "explanation": "The proper fix is to return the value from the function. Add `return count;` at the end of the function, and capture it with `const result = createCounter();`. This keeps `count` encapsulated inside the function while making the value accessible outside. Moving `count` outside the function (option C) defeats the purpose of encapsulation."
   }
 ]

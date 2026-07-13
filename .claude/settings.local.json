@@ -5,7 +5,15 @@
       "Bash(python3 -c 'import json; json.load\\(open\\('\\\\''__TRACKED_VAR__'\\\\''\\)\\)')",
       "Bash(node *)",
       "Bash(git *)",
-      "Bash(mkdir *)"
+      "Bash(mkdir *)",
+      "Bash(grep -n '`[^`]*`' /Users/vincenzo.mancuso/Desktop/random/become-dev/content/modules/f03-javascript-foundations/lessons/02-data-types/prose.mdx)",
+      "Bash(grep -v '```')",
+      "Bash(xxd)",
+      "Bash(npx tsc *)",
+      "Bash(python3 -)",
+      "Bash(npm run *)",
+      "Bash(echo \"tsc exit code: $?\")",
+      "Bash(echo \"tsc exit: $?\")"
     ]
   }
 }

@@ -6,7 +6,7 @@ sectionCount: 5
 
 ## Why Functions Exist
 
-Functions let you name a block of code and run it multiple times without rewriting it. Every time you call `console.log()` or `document.querySelector()`, you're using a function someone else wrote. Learning to write your own is the first step toward building real applications.
+Functions let you name a block of code and run it multiple times without rewriting it. Every time you call <InlineCode>console.log()</InlineCode> or <InlineCode>document.querySelector()</InlineCode>, you're using a function someone else wrote. Learning to write your own is the first step toward building real applications.
 
 A function encapsulates a task. Instead of scattering the same ten lines throughout your code, you write them once in a function and call that function wherever you need the task done. If the task needs to change, you update it in one place.
 
@@ -32,11 +32,13 @@ const total2 = calculateTotal(250);  // 270
 
 The second approach is shorter, but that's not the main benefit. The main benefit is that if the tax rate changes to 9%, you update one line instead of hunting through your codebase.
 
-> **Simply Put:** Functions package reusable code. Define a task once, then call it wherever you need it.
+<SimplyPut>
+Functions package reusable code. Define a task once, then call it wherever you need it.
+</SimplyPut>
 
 ## Function Declarations
 
-A function declaration defines a named function using the `function` keyword.
+A function declaration defines a named function using the <InlineCode>function</InlineCode> keyword.
 
 ```js
 function greet(name) {
@@ -47,13 +49,13 @@ const message = greet("Jordan");  // "Hello, Jordan!"
 ```
 
 The anatomy:
-- `function` — the keyword that starts the declaration
-- `greet` — the function name (follows the same rules as variable names)
-- `(name)` — the parameter list (inputs the function expects)
-- `{ ... }` — the function body (code that runs when called)
-- `return` — sends a value back to the caller
+- <InlineCode>function</InlineCode>: the keyword that starts the declaration
+- <InlineCode>greet</InlineCode>: the function name (follows the same rules as variable names)
+- <InlineCode>(name)</InlineCode>: the parameter list (inputs the function expects)
+- <InlineCode>{ ... }</InlineCode>: the function body (code that runs when called)
+- <InlineCode>return</InlineCode>: sends a value back to the caller
 
-Parameters are placeholders. When you call `greet("Jordan")`, the value `"Jordan"` is passed as an argument and assigned to the parameter `name` inside the function.
+Parameters are placeholders. When you call <InlineCode>greet("Jordan")</InlineCode>, the value <InlineCode>"Jordan"</InlineCode> is passed as an argument and assigned to the parameter <InlineCode>name</InlineCode> inside the function.
 
 ```js
 function add(a, b) {
@@ -65,7 +67,7 @@ add(10, 20);    // 30 — a=10, b=20
 add(1);         // NaN — a=1, b=undefined, so 1 + undefined = NaN
 ```
 
-If you call a function with fewer arguments than parameters, the missing parameters receive `undefined` as their value. This is usually a bug, not a feature.
+If you call a function with fewer arguments than parameters, the missing parameters receive <InlineCode>undefined</InlineCode> as their value. This is usually a bug, not a feature.
 
 **Default parameters** let you specify fallback values:
 
@@ -78,7 +80,7 @@ greet("Jordan");  // "Hello, Jordan!"
 greet();          // "Hello, Guest!"
 ```
 
-**Return stops execution.** Code after `return` doesn't run:
+**Return stops execution.** Code after <InlineCode>return</InlineCode> doesn't run:
 
 ```js
 function checkAge(age) {
@@ -90,7 +92,7 @@ function checkAge(age) {
 }
 ```
 
-A function without a `return` statement returns `undefined`:
+A function without a <InlineCode>return</InlineCode> statement returns <InlineCode>undefined</InlineCode>:
 
 ```js
 function logMessage(msg) {
@@ -138,9 +140,11 @@ const sayGoodbye = function() {
 };
 ```
 
-[→ Lesson 4: Scope and Hoisting] explains hoisting in detail.
+<ForwardRef module="F03-04" title="Scope and Hoisting" /> explains hoisting in detail.
 
-> **Simply Put:** Function declarations use `function name()` syntax and are hoisted. Function expressions assign a function to a variable and can't be called before they're defined.
+<SimplyPut>
+Function declarations use `function name()` syntax and are hoisted. Function expressions assign a function to a variable and can't be called before they're defined.
+</SimplyPut>
 
 ## Arrow Functions
 
@@ -184,7 +188,7 @@ const calculate = (price, quantity) => {
 };
 ```
 
-Arrow functions shine in callbacks — functions passed to other functions:
+Arrow functions shine in callbacks (functions passed to other functions):
 
 ```js
 const numbers = [1, 2, 3, 4, 5];
@@ -200,14 +204,16 @@ const doubled = numbers.map(n => n * 2);
 
 Arrow functions have one important difference from regular functions: they handle object methods differently. For now, remember this practical rule:
 
-- Use **arrow functions** for callbacks and short transformations (like in `.map()` or event handlers)
+- Use **arrow functions** for callbacks and short transformations (like in <InlineCode>.map()</InlineCode> or event handlers)
 - Use **regular functions** when defining methods on objects
 
-> **Simply Put:** Arrow functions are great for callbacks. Regular functions are better for object methods. We'll explore why in [→ F04: JavaScript Core Depth].
+<SimplyPut>
+Arrow functions are great for callbacks. Regular functions are better for object methods. We'll explore why in <ForwardRef module="F04" title="JavaScript Core Depth" />.
+</SimplyPut>
 
 ## Functions as Values
 
-In JavaScript, functions are values — they can be stored in variables, passed to other functions, and returned from functions. This is called "first-class functions" and it's fundamental to how JavaScript works.
+In JavaScript, functions are values. They can be stored in variables, passed to other functions, and returned from functions. This is called "first-class functions" and it's fundamental to how JavaScript works.
 
 **Passing functions to other functions:**
 
@@ -226,11 +232,11 @@ processUser({ name: "Jordan" }, logUser);
 // Logs: "User: Jordan"
 ```
 
-The `callback` parameter receives a function. When we call `callback(result)`, we're calling whatever function was passed in.
+The <InlineCode>callback</InlineCode> parameter receives a function. When we call <InlineCode>callback(result)</InlineCode>, we're calling whatever function was passed in.
 
 **Returning functions from functions:**
 
-Functions can also return other functions. This unlocks powerful patterns that we'll explore in [→ F04: JavaScript Core Depth].
+Functions can also return other functions. This unlocks powerful patterns that we'll explore in <ForwardRef module="F04" title="JavaScript Core Depth" />.
 
 **Common callback patterns you'll see:**
 
@@ -256,4 +262,6 @@ fetch("/api/users")
 
 Treating functions as values is one of JavaScript's most powerful features. It enables patterns like callbacks, event handlers, and functional programming techniques.
 
-> **Simply Put:** Functions are values. You can store them in variables, pass them to other functions, and return them from functions. This enables callbacks, event handlers, and many JavaScript patterns.
+<SimplyPut>
+Functions are values. You can store them in variables, pass them to other functions, and return them from functions. This enables callbacks, event handlers, and many JavaScript patterns.
+</SimplyPut>

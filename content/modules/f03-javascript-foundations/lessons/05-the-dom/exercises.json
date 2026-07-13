@@ -3,8 +3,17 @@
     "type": "PREDICT",
     "question": "What does this code log?",
     "code": "// HTML: <p class=\"message\">Hello</p>\nconst element = document.querySelector('.message');\nconsole.log(element.textContent);",
-    "options": ["<p class=\"message\">Hello</p>", "Hello", ".message", "null"],
+    "options": [
+      "<p class=\"message\">Hello</p>",
+      "Hello",
+      ".message",
+      "null"
+    ],
     "correctIndex": 1,
+    "hints": [
+      "textContent and the element's HTML are different things. Which one is asked for?",
+      "textContent strips all markup and returns only the text between the tags."
+    ],
     "explanation": "`textContent` returns only the text content of an element, without any HTML tags. It returns \"Hello\", not the outer HTML or the selector used to find it. If the element didn't exist, `element` would be `null` and accessing `.textContent` would throw an error."
   },
   {
@@ -18,6 +27,10 @@
       "An error — can't set textContent"
     ],
     "correctIndex": 1,
+    "hints": [
+      "Does textContent parse HTML, or treat everything as plain text?",
+      "The angle brackets end up displayed literally. Parsing markup is innerHTML's job."
+    ],
     "explanation": "`textContent` treats everything as plain text, not HTML. The angle brackets and tag names are displayed literally as text. If you wanted the HTML to be parsed and rendered (showing bold text), you'd use `innerHTML` instead."
   },
   {
@@ -31,6 +44,10 @@
       "You need to use innerHTML for buttons"
     ],
     "correctIndex": 2,
+    "hints": [
+      "What does querySelector return when nothing matches the selector?",
+      "The crash happens on the second line: you cannot read a property of null."
+    ],
     "explanation": "If there's no element with class `submit-btn`, `querySelector` returns `null`. Accessing `.textContent` on `null` throws a TypeError. The fix is to check if the element exists before using it: `if (button) { button.textContent = 'Loading...'; }`"
   },
   {
@@ -42,20 +59,52 @@
       "Set the text content of the new li",
       "Append the new li to the ul"
     ],
-    "correctOrder": [0, 1, 2, 3],
+    "correctOrder": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "hints": [
+      "You need the parent before you can append anything to it.",
+      "Create, configure, then attach: an element must exist and have its content before appendChild."
+    ],
     "explanation": "First, you need a reference to the parent element where you'll add the new content. Then create the new element, configure it (text, classes, attributes), and finally add it to the DOM. You can't append an element to a parent you haven't selected yet."
   },
   {
     "type": "CLASSIFY",
     "question": "Classify each method based on whether it returns one element or multiple elements:",
     "items": [
-      { "label": "document.querySelector('.card')", "category": "One element (or null)" },
-      { "label": "document.querySelectorAll('.card')", "category": "Multiple elements (NodeList)" },
-      { "label": "document.getElementById('main')", "category": "One element (or null)" },
-      { "label": "document.getElementsByClassName('item')", "category": "Multiple elements (HTMLCollection)" },
-      { "label": "document.querySelector('#header')", "category": "One element (or null)" }
+      {
+        "label": "document.querySelector('.card')",
+        "category": "One element (or null)"
+      },
+      {
+        "label": "document.querySelectorAll('.card')",
+        "category": "Multiple elements (NodeList)"
+      },
+      {
+        "label": "document.getElementById('main')",
+        "category": "One element (or null)"
+      },
+      {
+        "label": "document.getElementsByClassName('item')",
+        "category": "Multiple elements (HTMLCollection)"
+      },
+      {
+        "label": "document.querySelector('#header')",
+        "category": "One element (or null)"
+      }
     ],
-    "categories": ["One element (or null)", "Multiple elements (NodeList)", "Multiple elements (HTMLCollection)"],
+    "categories": [
+      "One element (or null)",
+      "Multiple elements (NodeList)",
+      "Multiple elements (HTMLCollection)"
+    ],
+    "hints": [
+      "Methods with plural names return collections. Then look at WHICH collection type.",
+      "querySelectorAll gives a NodeList; getElementsByClassName gives an HTMLCollection. querySelector and getElementById give a single element or null."
+    ],
     "explanation": "`querySelector` and `getElementById` return a single element (or null if not found). `querySelectorAll` returns a NodeList. `getElementsByClassName` and `getElementsByTagName` return an HTMLCollection. The difference matters: NodeLists from `querySelectorAll` support `forEach`, but HTMLCollections do not — you need to convert them with `Array.from()` first."
   },
   {
@@ -69,6 +118,10 @@
       "Use modal.innerHTML = '' instead"
     ],
     "correctIndex": 0,
+    "hints": [
+      "What happens to the OTHER classes on the element when you assign className directly?",
+      "classList has methods that modify one class at a time without touching the rest."
+    ],
     "explanation": "Setting `className` directly replaces ALL classes on the element. If the modal had `class=\"modal large animated\"`, this code would remove modal, large, and animated, leaving only hidden. Using `classList.add('hidden')` adds the class without removing existing ones. Option B works but mixes CSS into JavaScript. Options C and D have the same problem as the original."
   },
   {
@@ -77,12 +130,28 @@
     "setup": "Create a function called `showNotification` that takes a message string. The function should:\n1. Create a div element\n2. Add the class 'notification' to it\n3. Set its text content to the message\n4. Append it to the element with id 'notification-container'\n5. Return the created element",
     "starterCode": "function showNotification(message) {\n  // Your code here\n}",
     "tests": [
-      { "description": "Creates a div element", "expectation": "Returns an HTMLDivElement" },
-      { "description": "Has the 'notification' class", "expectation": "Element has classList containing 'notification'" },
-      { "description": "Contains the message text", "expectation": "textContent equals the passed message" },
-      { "description": "Is added to the container", "expectation": "Element is a child of #notification-container" }
+      {
+        "description": "Creates a div element",
+        "expectation": "Returns an HTMLDivElement"
+      },
+      {
+        "description": "Has the 'notification' class",
+        "expectation": "Element has classList containing 'notification'"
+      },
+      {
+        "description": "Contains the message text",
+        "expectation": "textContent equals the passed message"
+      },
+      {
+        "description": "Is added to the container",
+        "expectation": "Element is a child of #notification-container"
+      }
     ],
     "solutionCode": "function showNotification(message) {\n  const notification = document.createElement('div');\n  notification.classList.add('notification');\n  notification.textContent = message;\n  \n  const container = document.querySelector('#notification-container');\n  if (container) {\n    container.appendChild(notification);\n  }\n  \n  return notification;\n}",
+    "hints": [
+      "Follow the five steps in the setup in order: create, classify, fill, attach, return.",
+      "createElement makes the div; classList.add sets the class; querySelector finds the container; appendChild attaches it."
+    ],
     "explanation": "The solution follows the standard pattern for creating and adding elements: `createElement` to make the element, configure it with class and content, find the parent container, then `appendChild` to add it to the DOM. The null check on container prevents errors if the container element doesn't exist. Returning the element allows the caller to further manipulate it (e.g., to remove it later)."
   }
 ]

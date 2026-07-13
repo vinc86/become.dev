@@ -16,13 +16,11 @@ become.dev is built for engineers who want to truly understand how things work, 
 - **Professional (P01–P09)**: For those wanting to go from junior to mid engineer
 - **Advanced (A01–A06)**: For those wanting to understand internals and become senior/staff
 
-**Full module catalog:**
+**Module catalog:** do not rely on a hardcoded list — it goes stale. At the start of every task:
+- Read `content/tracks.json` (generated) and `content/modules/` for the modules that exist right now. The filesystem is the truth for content status.
+- Read `docs/PLAN.md` §3 for the planned catalog (F01–F07, P01–P09, A01–A06) and module topics. PLAN v1.4 is the source of truth for the catalog and all product rules, but its status tables can lag behind the filesystem — the filesystem wins on content status.
 
-Foundations: F01 How the Web Works · F02 HTML & CSS Fundamentals · F03 JavaScript Foundations · F04 JavaScript Core Depth · F05 Advanced Arrays & Objects · F06 TypeScript Foundations ✓ · F07 Git & GitHub Essentials
-
-Professional: P01 Advanced JavaScript · P02 Advanced TypeScript · P03 React Foundations · P04 React Architecture · P05 CSS Architecture · P06 Testing Strategy · P07 Architectural Patterns · P08 GitHub Actions & CI/CD · P09 AI-Augmented Engineering
-
-Advanced: A01 JS Engine Internals · A02 Browser Rendering Pipeline · A03 Frontend Performance Engineering · A04 Design Systems Engineering · A05 Build Tooling & Modules · A06 Engineering Leadership
+**Free/paid boundary (Option B, decided v1.3):** the entire Foundations track is free. Professional and Advanced tracks are paid, with entitlements at track level. **Lesson 1 of every paid module is a free preview** (`freePreview: true` in its prose.mdx frontmatter): it is the sales showcase for the module, playable without purchase. Write it to demonstrate the depth of the paid material and to stand alone.
 
 ## Content File Structure
 
@@ -30,33 +28,34 @@ Every lesson is stored as three separate files. **Never output a monolithic JSON
 
 ```
 content/
+  tracks.json             ← generated, never edit manually
   modules/
     {module-id}/          e.g. f06-typescript-foundations
       meta.json
       lessons/
-        {lesson-id}/      e.g. l01-why-typescript-exists
+        {lesson-id}/      e.g. 01-why-typescript-exists
           prose.mdx       ← Learn tab
           exercises.json  ← Practice tab
           quiz.json       ← Assess tab
 ```
 
 ### meta.json format
+Must match the `ModuleMeta` type in `types/content.ts`:
 ```json
 {
   "id": "F06",
   "title": "TypeScript Foundations",
+  "description": "Types, interfaces, generics basics, and migrating from JS.",
   "track": "foundations",
-  "paths": ["path-1", "path-2"],
-  "totalLessons": 5,
-  "version": "2.0"
+  "paths": ["path-1", "path-2"]
 }
 ```
 
 ### prose.mdx format
-Native MDX with frontmatter. No escaped strings, no JSON wrapping.
+Native MDX with frontmatter. No escaped strings, no JSON wrapping. Add `freePreview: true` to the frontmatter only on lesson 1 of a paid (Professional/Advanced) module.
 ```mdx
 ---
-lessonId: "l01"
+lessonId: "01"
 title: "{Lesson Title}"
 sectionCount: {3-5}
 ---
@@ -65,23 +64,29 @@ sectionCount: {3-5}
 
 {Prose content. 300-600 words. Real technical fact in first sentence.}
 
+Use <InlineCode>someCode()</InlineCode> for inline code references. Do NOT use backticks for inline code — they render incorrectly.
+
 ```{lang}
 // code example. always with real context
 ```
 
+{Code blocks are type-checked by the deterministic validator. Mark intentionally invalid teaching code with the fence flag `no-check`, e.g. ```js no-check}
+
 {More prose...}
 
-> **Simply Put:** {Plain English summary. Max 2-3 sentences. Only when needed.}
+<SimplyPut>
+{Plain English summary. Max 2-3 sentences. Only when needed. Backticks OK here.}
+</SimplyPut>
 
 ## {Next Section Heading}
 
 {Prose content...}
 
-[→ Lesson X.Y] {forward reference when needed}
+<ForwardRef module="F04" title="JavaScript Core Depth" /> {forward reference when needed}
 ```
 
 ### exercises.json format
-Clean array, no nesting, no prose embedded.
+Clean array, no nesting, no prose embedded. Every exercise carries a `hints` array (1–2 entries).
 ```json
 [
   {
@@ -90,6 +95,7 @@ Clean array, no nesting, no prose embedded.
     "code": "...",
     "options": ["A", "B", "C", "D"],
     "correctIndex": 1,
+    "hints": ["...", "..."],
     "explanation": "..."
   }
 ]
@@ -146,8 +152,9 @@ Every lesson has three tabs: Learn, Practice, Assess.
 - Target length: 300–600 words per section
 - 3–5 sections per lesson
 - Each section must lead to a practical insight or concrete decision
-- "Simply Put" blocks rendered as blockquotes. only when truly needed to clarify a complex concept (max 2-3 sentences)
-- Forward references for future concepts (format: `[→ Lesson X.Y]`)
+- "Simply Put" blocks use the `<SimplyPut>` MDX component. Only when truly needed to clarify a complex concept (max 2-3 sentences). Backticks are OK inside SimplyPut blocks.
+- **Inline code must use the `<InlineCode>` component**, not backticks. Example: `<InlineCode>useState()</InlineCode>`. Backticks render incorrectly in our MDX pipeline.
+- Forward references for future concepts use the `<ForwardRef>` MDX component: `<ForwardRef module="F04" title="JavaScript Core Depth" />`. To point at a specific lesson use `module="F03-04"`.
 - Code examples when necessary, always with real context
 
 ### Tab Practice (exercises.json)
@@ -163,6 +170,7 @@ Each lesson has 4–8 interactive exercises.
   "question": "...",
   "items": ["item1", "item2", "item3"],
   "correctOrder": [2, 0, 1],
+  "hints": ["...", "..."],
   "explanation": "..."
 }
 ```
@@ -175,6 +183,7 @@ Each lesson has 4–8 interactive exercises.
   "code": "...",
   "options": ["option1", "option2", "option3", "option4"],
   "correctIndex": 2,
+  "hints": ["...", "..."],
   "explanation": "..."
 }
 ```
@@ -187,6 +196,7 @@ Each lesson has 4–8 interactive exercises.
   "code": "...",
   "options": ["option1", "option2", "option3", "option4"],
   "correctIndex": 1,
+  "hints": ["...", "..."],
   "explanation": "..."
 }
 ```
@@ -198,6 +208,7 @@ Each lesson has 4–8 interactive exercises.
   "question": "...",
   "items": [{"label": "...", "category": "A"}],
   "categories": ["A", "B"],
+  "hints": ["...", "..."],
   "explanation": "..."
 }
 ```
@@ -210,6 +221,7 @@ Each lesson has 4–8 interactive exercises.
   "buggyCode": "...",
   "options": ["fix1", "fix2", "fix3", "fix4"],
   "correctIndex": 0,
+  "hints": ["...", "..."],
   "explanation": "..."
 }
 ```
@@ -225,18 +237,23 @@ Each lesson has 4–8 interactive exercises.
     { "description": "...", "expectation": "..." }
   ],
   "solutionCode": "...",
+  "hints": ["...", "..."],
   "explanation": "..."
 }
 ```
 
 **Exercise rules:**
 - Not all types must be present. choose the most suitable ones for the module content
+- PREDICT options must be the **exact console output** (deterministic validation executes the snippet and compares). A string result is written quoted (`"345"`); multiple logs go on separate lines or joined with `, then `; an expected exception is written `Throws {ErrorName}: {message}`
 - Every exercise must be rooted in a real scenario
+- **Every exercise must include a `hints` array with 1–2 hints.** The platform reveals them after the first wrong attempt (5 cookies each). Hint 1 points at the relevant concept; hint 2 narrows to the specific line or mistake. Neither may give the answer away.
 - The explanation must teach something new, not just confirm the answer
 - Progressive difficulty: from straightforward → ambiguous/realistic
 - At least one FIX or IDENTIFY exercise when possible
 
 ## IMPLEMENT Exercise Requirements
+
+Until the in-browser editor (EPIC-12) ships, IMPLEMENT runs as an **interim repo-based variant** (EPIC-08): the learner solves the exercise locally against the provided test suite and submits a self-check confirmation. Author accordingly: starter code must be self-contained and runnable locally, tests must be described precisely enough to self-verify, and nothing may depend on live in-browser execution.
 
 - Must simulate a real production task
 - Must include at least 2–3 test cases
@@ -290,7 +307,9 @@ Every lesson must ensure that:
 
 ## The Cookie System
 
-Users earn cookies by completing exercises and quizzes, and spend them to unlock subsequent lessons. Every exercise must be worth the time invested. If an exercise is trivial, it doesn't deserve cookies.
+Cookies are a **reward and status currency** — they never gate progression. Lesson N+1 unlocks when Lesson N is completed (all exercises solved or hints exhausted, quiz submitted); there is no cookie cost to unlock anything required. Payouts are fixed: +10 per correct exercise answer, +5 first-attempt bonus, +25 lesson completion bonus, +15 quiz completion, +100 module final passed. Hints cost 5 cookies to reveal. Because every correct answer pays the same +10, every exercise must be worth the learner's time — a trivial exercise devalues the reward.
+
+**Implication for content: never write prose, exercises, or explanations implying that cookies are spent or required to unlock lessons or progress.**
 
 ## How We Work Together
 

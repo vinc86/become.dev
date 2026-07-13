@@ -11,6 +11,7 @@ export default function Marketing() {
   return (
     <div>
       <Header />
+
       <main className="flex flex-col items-center w-full">
         <Hero />
         <Paths />
