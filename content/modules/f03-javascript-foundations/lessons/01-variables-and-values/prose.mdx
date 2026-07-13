@@ -1,4 +1,3 @@
-
 ---
 lessonId: "01"
 title: "Variables and Values"
@@ -7,7 +6,7 @@ sectionCount: 4
 
 ## What Variables Actually Are
 
-A variable is a named container that holds a value in your computer's memory. When you write `let username = "alex"`, you're telling JavaScript to reserve a slot in memory, label it `username`, and store the text `"alex"` there. Every time you reference `username` after that, JavaScript goes to that memory slot and retrieves whatever is currently stored.
+A variable is a named container that holds a value in your computer's memory. When you write <InlineCode>let username = "alex"</InlineCode>, you're telling JavaScript to reserve a slot in memory, label it <InlineCode>username</InlineCode>, and store the text <InlineCode>"alex"</InlineCode> there. Every time you reference <InlineCode>username</InlineCode> after that, JavaScript goes to that memory slot and retrieves whatever is currently stored.
 
 This matters because programs are fundamentally about transforming data. A shopping cart starts empty, items get added, prices get calculated, and a total emerges. Variables let you hold onto data as it changes throughout that process.
 
@@ -24,13 +23,15 @@ console.log(itemCount); // 1
 console.log(cartTotal); // 29.99
 ```
 
-The `=` sign doesn't mean "equals" in the mathematical sense. It means "assign the value on the right to the variable on the left." The expression `itemCount = itemCount + 1` reads the current value (0), adds 1, and stores the result (1) back into the same variable.
+The <InlineCode>=</InlineCode> sign doesn't mean "equals" in the mathematical sense. It means "assign the value on the right to the variable on the left." The expression <InlineCode>itemCount = itemCount + 1</InlineCode> reads the current value (0), adds 1, and stores the result (1) back into the same variable.
 
-> **Simply Put:** Variables are labeled boxes in memory. You put values in them, read values from them, and update them as your program runs.
+<SimplyPut>
+Variables are labeled boxes in memory. You put values in them, read values from them, and update them as your program runs.
+</SimplyPut>
 
 ## let, const, and the Ghost of var
 
-JavaScript has three keywords for creating variables: `let`, `const`, and `var`. In modern code, you'll use `let` and `const` almost exclusively.
+JavaScript has three keywords for creating variables: <InlineCode>let</InlineCode>, <InlineCode>const</InlineCode>, and <InlineCode>var</InlineCode>. In modern code, you'll use <InlineCode>let</InlineCode> and <InlineCode>const</InlineCode> almost exclusively.
 
 **const** creates a variable that cannot be reassigned. Once you set it, that's it.
 
@@ -42,9 +43,9 @@ const TAX_RATE = 0.08;
 API_URL = "https://other.com"; // TypeError: Assignment to constant variable
 ```
 
-Use `const` by default. It signals to other developers (and your future self) that this value shouldn't change. Configuration values, imported modules, and function references are natural fits for `const`.
+Use <InlineCode>const</InlineCode> by default. It signals to other developers (and your future self) that this value shouldn't change. Configuration values, imported modules, and function references are natural fits for <InlineCode>const</InlineCode>.
 
-**let** creates a variable you can reassign.
+<InlineCode>let</InlineCode> creates a variable you can reassign.
 
 ```js
 let currentUser = null;
@@ -56,9 +57,9 @@ currentUser = { id: 1, name: "Jordan" };
 currentUser = null;
 ```
 
-Use `let` when the value needs to change during execution — loop counters, accumulated totals, state that updates over time.
+Use <InlineCode>let</InlineCode> when the value needs to change during execution. Think loop counters, accumulated totals, state that updates over time.
 
-**var** is the original way to declare variables in JavaScript. It has confusing scoping rules that lead to bugs. You'll encounter it in older codebases, but don't use it in new code.
+<InlineCode>var</InlineCode> is the original way to declare variables in JavaScript. It has confusing scoping rules that lead to bugs. You'll encounter it in older codebases, but don't use it in new code.
 
 ```js
 // var has function scope, not block scope — this is confusing
@@ -74,13 +75,13 @@ if (true) {
 console.log(contained); // ReferenceError: contained is not defined
 ```
 
-> **Simply Put:** Use `const` when a value won't change. Use `let` when it will. Avoid `var` in new code — it has confusing behavior that `let` and `const` fixed.
+<SimplyPut> Use `const` when a value won't change. Use `let` when it will. Avoid `var` in new code — it has confusing behavior that `let` and `const` fixed. </SimplyPut>
 
 ## Naming Variables Well
 
-Variable names in JavaScript must start with a letter, underscore (`_`), or dollar sign (`$`). After that, you can use letters, numbers, underscores, or dollar signs. Names are case-sensitive: `userName`, `UserName`, and `username` are three different variables.
+Variable names in JavaScript must start with a letter, underscore (<InlineCode>_</InlineCode>), or dollar sign (<InlineCode>$</InlineCode>). After that, you can use letters, numbers, underscores, or dollar signs. Names are case-sensitive: <InlineCode>userName</InlineCode>, <InlineCode>UserName</InlineCode>, and <InlineCode>username</InlineCode> are three different variables.
 
-```js
+```js no-check
 // Valid names
 let userName = "alex";
 let _privateData = "internal";
@@ -93,9 +94,9 @@ let user-name = "nope";  // Hyphens aren't allowed
 let class = "nope";      // Reserved word
 ```
 
-JavaScript reserves certain words for its own use: `class`, `function`, `return`, `if`, `else`, `const`, `let`, and about 60 others. You can't use these as variable names.
+JavaScript reserves certain words for its own use: <InlineCode>class</InlineCode>, <InlineCode>function</InlineCode>, <InlineCode>return</InlineCode>, <InlineCode>if</InlineCode>, <InlineCode>else</InlineCode>, <InlineCode>const</InlineCode>, <InlineCode>let</InlineCode>, and about 60 others. You can't use these as variable names.
 
-The convention in JavaScript is **camelCase**: start lowercase, capitalize each subsequent word. `firstName`, `isLoggedIn`, `calculateTotalPrice`. Constants that represent fixed configuration values often use **SCREAMING_SNAKE_CASE**: `MAX_RETRIES`, `API_BASE_URL`.
+The convention in JavaScript is **camelCase**: start lowercase, capitalize each subsequent word. <InlineCode>firstName</InlineCode>, <InlineCode>isLoggedIn</InlineCode>, <InlineCode>calculateTotalPrice</InlineCode>. Constants that represent fixed configuration values often use **SCREAMING_SNAKE_CASE**: <InlineCode>MAX_RETRIES</InlineCode>, <InlineCode>API_BASE_URL</InlineCode>.
 
 Good names describe what the variable contains, not how it's used.
 
@@ -111,7 +112,7 @@ let isEmailVerified = true;
 let activeUsers = users.filter(u => u.active);
 ```
 
-Your variable names are documentation. Six months from now, `isEmailVerified` tells you exactly what it represents. `flag` tells you nothing.
+Your variable names are documentation. Six months from now, <InlineCode>isEmailVerified</InlineCode> tells you exactly what it represents. <InlineCode>flag</InlineCode> tells you nothing.
 
 ## Assignment and Reassignment
 
@@ -123,7 +124,7 @@ let playerName;       // Declared but not initialized
 console.log(playerName); // undefined
 ```
 
-An uninitialized variable has the special value `undefined` — JavaScript's way of saying "this exists but has no value yet."
+An uninitialized variable has the special value <InlineCode>undefined</InlineCode>, JavaScript's way of saying "this exists but has no value yet."
 
 Reassignment replaces the current value with a new one. The old value is discarded.
 
@@ -148,7 +149,7 @@ count *= 2;         // Multiply and assign
 count /= 4;         // Divide and assign
 ```
 
-One subtle point: `const` prevents reassignment, but it doesn't make objects immutable. You can still modify the contents of a `const` object — you just can't point the variable at a different object.
+One subtle point: <InlineCode>const</InlineCode> prevents reassignment, but it doesn't make objects immutable. You can still modify the contents of a <InlineCode>const</InlineCode> object. You just can't point the variable at a different object.
 
 ```js
 const user = { name: "Alex", role: "admin" };
@@ -160,6 +161,8 @@ scores.push(95);          // This works — we're modifying the array
 scores = [100, 100, 100]; // TypeError: Assignment to constant variable
 ```
 
-Immutability patterns are covered in a later module — for now, just know that `const` prevents reassignment but doesn't freeze objects.
+Immutability patterns are covered in a later module. For now, just know that <InlineCode>const</InlineCode> prevents reassignment but doesn't freeze objects.
 
-> **Simply Put:** `=` assigns a value. `const` prevents reassignment but doesn't freeze objects. Uninitialized variables hold `undefined`.
+<SimplyPut>
+`=` assigns a value. `const` prevents reassignment but doesn't freeze objects. Uninitialized variables hold `undefined`.
+</SimplyPut>

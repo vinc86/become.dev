@@ -6,7 +6,7 @@ sectionCount: 5
 
 ## How Events Work
 
-Every interaction on a web page — clicks, key presses, form submissions, scrolling — fires an event. Events are the browser's way of telling your JavaScript code that something happened. Without events, your page would be static. With them, you can respond to users in real time.
+Every interaction on a web page (clicks, key presses, form submissions, scrolling) fires an event. Events are the browser's way of telling your JavaScript code that something happened. Without events, your page would be static. With them, you can respond to users in real time.
 
 When a user clicks a button, the browser creates a click event object containing information about what happened: which button was clicked, where the cursor was, whether any modifier keys were held. Your code can listen for this event and respond.
 
@@ -19,15 +19,17 @@ button.addEventListener('click', function(event) {
 });
 ```
 
-The `addEventListener` method takes two arguments: the event type (a string like `'click'`) and a callback function to run when the event occurs. The callback receives an event object with details about what happened.
+The <InlineCode>addEventListener</InlineCode> method takes two arguments: the event type (a string like <InlineCode>'click'</InlineCode>) and a callback function to run when the event occurs. The callback receives an event object with details about what happened.
 
-This pattern — "when X happens, do Y" — is the foundation of interactive web development.
+This pattern ("when X happens, do Y") is the foundation of interactive web development.
 
-> **Simply Put:** Events are notifications from the browser that something happened. You listen for them with `addEventListener` and run code in response.
+<SimplyPut>
+Events are notifications from the browser that something happened. You listen for them with `addEventListener` and run code in response.
+</SimplyPut>
 
 ## Adding Event Listeners
 
-The `addEventListener` method is the modern way to handle events. You can attach multiple listeners to the same element, and they'll all run when the event fires.
+The <InlineCode>addEventListener</InlineCode> method is the modern way to handle events. You can attach multiple listeners to the same element, and they'll all run when the event fires.
 
 ```js
 const button = document.querySelector('#action-btn');
@@ -64,7 +66,7 @@ Named functions have another advantage: you can remove them later.
 button.removeEventListener('click', handleClick);
 ```
 
-To remove a listener, you must pass the exact same function reference. This is why anonymous functions can't be removed — you have no reference to pass.
+To remove a listener, you must pass the exact same function reference. This is why anonymous functions can't be removed. You have no reference to pass.
 
 ```js
 // This doesn't work — different function references
@@ -82,7 +84,9 @@ button.addEventListener('click', handleClick());
 button.addEventListener('click', handleClick);
 ```
 
-> **Simply Put:** `addEventListener` attaches code to run when an event happens. Use named functions if you need to remove the listener later.
+<SimplyPut>
+`addEventListener` attaches code to run when an event happens. Use named functions if you need to remove the listener later.
+</SimplyPut>
 
 ## The Event Object
 
@@ -98,9 +102,9 @@ document.addEventListener('click', function(event) {
 });
 ```
 
-**event.target** is the element that triggered the event — the actual thing that was clicked, typed in, or interacted with.
+**<InlineCode>event.target</InlineCode>** is the element that triggered the event, the actual thing that was clicked, typed in, or interacted with.
 
-**event.currentTarget** is the element the listener is attached to. They're often the same, but not always:
+**<InlineCode>event.currentTarget</InlineCode>** is the element the listener is attached to. They're often the same, but not always:
 
 ```js
 // HTML: <ul><li>Item 1</li><li>Item 2</li></ul>
@@ -111,7 +115,7 @@ document.querySelector('ul').addEventListener('click', function(event) {
 });
 ```
 
-**Preventing default behavior** — many events have default browser actions. A form submit navigates to a new page. A link click navigates to the href. You can stop these:
+**Preventing default behavior**. Many events have default browser actions. A form submit navigates to a new page. A link click navigates to the href. You can stop these:
 
 ```js
 const form = document.querySelector('form');
@@ -129,7 +133,7 @@ link.addEventListener('click', function(event) {
 });
 ```
 
-**Stopping propagation** — events bubble up through the DOM tree. A click on a button inside a div also triggers click handlers on the div, and its parent, and so on. You can stop this:
+**Stopping propagation**. Events bubble up through the DOM tree. A click on a button inside a div also triggers click handlers on the div, and its parent, and so on. You can stop this:
 
 ```js
 button.addEventListener('click', function(event) {
@@ -138,7 +142,9 @@ button.addEventListener('click', function(event) {
 });
 ```
 
-> **Simply Put:** The event object tells you what happened (type), where (target), and lets you prevent default behavior or stop bubbling.
+<SimplyPut>
+The event object tells you what happened (type), where (target), and lets you prevent default behavior or stop bubbling.
+</SimplyPut>
 
 ## Common Event Types
 
@@ -169,7 +175,7 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('keyup', handler);     // Key released
 ```
 
-`keydown` fires when a key is pressed (and repeats if held). `keyup` fires when released.
+<InlineCode>keydown</InlineCode> fires when a key is pressed (and repeats if held). <InlineCode>keyup</InlineCode> fires when released.
 
 **Form events:**
 
@@ -203,9 +209,11 @@ window.addEventListener('resize', handler);       // Window resized
 window.addEventListener('scroll', handler);       // Page scrolled
 ```
 
-`DOMContentLoaded` fires when the HTML is parsed and the DOM is ready, before images and stylesheets finish loading. `load` waits for everything.
+<InlineCode>DOMContentLoaded</InlineCode> fires when the HTML is parsed and the DOM is ready, before images and stylesheets finish loading. <InlineCode>load</InlineCode> waits for everything.
 
-> **Simply Put:** Use `click` for buttons, `submit` for forms, `input` for real-time typing feedback, `change` for final values, and `DOMContentLoaded` to run code when the page is ready.
+<SimplyPut>
+Use `click` for buttons, `submit` for forms, `input` for real-time typing feedback, `change` for final values, and `DOMContentLoaded` to run code when the page is ready.
+</SimplyPut>
 
 ## Event Delegation
 
@@ -234,9 +242,9 @@ document.querySelector('.todo-list').addEventListener('click', function(event) {
 // Now any todo-item, even dynamically added ones, will work
 ```
 
-When an event fires, it bubbles up from the target element through its parents. By listening on a parent, you catch events from all children — even those added after the listener was set up.
+When an event fires, it bubbles up from the target element through its parents. By listening on a parent, you catch events from all children, even those added after the listener was set up.
 
-**Practical example — a product list:**
+**Practical example (a product list):**
 
 ```js
 const productList = document.querySelector('.product-list');
@@ -275,8 +283,10 @@ productList.addEventListener('click', function(event) {
 });
 ```
 
-`closest` traverses up the DOM tree to find the nearest ancestor (or self) matching the selector.
+<InlineCode>closest</InlineCode> traverses up the DOM tree to find the nearest ancestor (or self) matching the selector.
 
-[→ F04: JavaScript Core Depth] covers event delegation patterns in more detail.
+<ForwardRef module="F04" title="JavaScript Core Depth" /> covers event delegation patterns in more detail.
 
-> **Simply Put:** Event delegation means listening on a parent instead of many children. Use `event.target` to see what was clicked, and `closest()` to find a specific ancestor.
+<SimplyPut>
+Event delegation means listening on a parent instead of many children. Use `event.target` to see what was clicked, and `closest()` to find a specific ancestor.
+</SimplyPut>

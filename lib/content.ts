@@ -1,11 +1,11 @@
-import type { Lesson, ModuleMeta, Track } from "@/types/content";
+import type { Lesson, LessonMeta, ModuleMeta, Track } from "@/types/content";
 import { Exercise } from "@/types/exercise";
 import { Quiz } from "@/types/quiz";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { basePath } from "./constants";
 import { getRawFileData } from "./utils";
-import tracks from "../content/tracks.json";
+import matter, { Input } from "gray-matter";
 
 type Tracks = Record<Track, string[]>;
 
@@ -63,4 +63,30 @@ async function getTracks(): Promise<Tracks> {
 export async function getModulesByTrack(track: Track): Promise<string[]> {
   const tracks = await getTracks();
   return tracks[track];
+}
+
+export async function getLessonsByModule(
+  moduleId: string
+): Promise<LessonMeta[]> {
+  const lessonsDir = path.join(basePath, moduleId, "lessons");
+
+  const lessonFolders = await readdir(lessonsDir);
+  const lessons: LessonMeta[] = [];
+
+  for (const folder of lessonFolders) {
+    const raw = await readFile(`${lessonsDir}/${folder}/prose.mdx`);
+    const { data } = matter(raw);
+    lessons.push({
+      id: data.lessonId,
+      slug: folder,
+      title: data.title,
+      sectionCount: data.sectionCount,
+      freePreview: data.freePreview ?? false
+    });
+  }
+
+  // Sort by lesson ID
+  return lessons.sort((a, b) =>
+    a.id.localeCompare(b.id, undefined, { numeric: true })
+  );
 }

@@ -1,6 +1,6 @@
 import Card from "./ui/card";
 import Slider from "./slider";
-import { cn } from "@/app/lib/utils";
+import { cn } from "@/lib/cn";
 
 export default function ProgressTrackingCard() {
   // example data

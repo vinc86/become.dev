@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { NavProps } from "../types";
 import { Dispatch, SetStateAction } from "react";
-import { cn } from "@/app/lib/utils";
+import { cn } from "@/lib/cn";
 import { X } from "lucide-react";
 
 type MobileNavProps = {
